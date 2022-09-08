@@ -1,0 +1,68 @@
+{%- liquid
+  assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
+  assign body_font_italic = settings.type_body_font | font_modify: 'style', 'italic'
+  assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
+%}
+
+{% style %}
+  {{ settings.type_body_font | font_face: font_display: 'swap' }}
+  {{ body_font_bold | font_face: font_display: 'swap' }}
+  {{ body_font_italic | font_face: font_display: 'swap' }}
+  {{ body_font_bold_italic | font_face: font_display: 'swap' }}
+  {{ settings.type_header_font | font_face: font_display: 'swap' }}
+
+  :root {
+    --font-body-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+    --font-body-style: {{ settings.type_body_font.style }};
+    --font-body-weight: {{ settings.type_body_font.weight }};
+    --font-body-weight-bold: {{ settings.type_body_font.weight | plus: 300 | at_most: 1000 }};
+
+    --background: #efefef;
+
+    --aspect-ratio: 1.7;
+
+    --font-heading-family: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
+    --font-heading-style: {{ settings.type_header_font.style }};
+    --font-heading-weight: {{ settings.type_header_font.weight }};
+
+    --font-body-scale: {{ settings.body_scale | divided_by: 100.0 }};
+    --font-heading-scale: {{ settings.heading_scale | times: 1.0 | divided_by: settings.body_scale }};
+
+    /* Cursors */
+    --cursor-zoom-in-svg    : url({{ 'cursor-zoom-in.svg' | asset_url }});
+    --cursor-zoom-in-2x-svg : url({{ 'cursor-zoom-in-2x.svg' | asset_url }});
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
+
+  html {
+    box-sizing: border-box;
+    font-size: calc(var(--font-body-scale) * 62.5%);
+    height: 100%;
+  }
+
+  body {
+    display: grid !important;
+    grid-template-rows: auto auto 1fr auto !important;
+    grid-template-columns: 100% !important;
+    min-height: 100% !important;
+    margin: 0 !important;
+    font-size: 1.5rem !important;
+    letter-spacing: 0.06rem !important;
+    line-height: calc(1 + 0.8 / var(--font-body-scale)) !important;
+    font-family: var(--font-body-family) !important;
+    font-style: var(--font-body-style) !important;
+    font-weight: var(--font-body-weight) !important;
+    background: var(--background) !important;
+  }
+
+  @media screen and (min-width: 750px) {
+    body {
+      font-size: 1.6rem;
+    }
+  }
+{% endstyle %}

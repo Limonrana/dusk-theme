@@ -1,0 +1,84 @@
+// We define the mixins for two major breakpoints mobile and tablet
+
+// $breakpoint is the variable that can have several values
+@mixin devices($breakpoint) {
+  //the name of the mixin is devices
+
+  @if $breakpoint == phone {
+    @media only screen and (max-width: 640px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == tablet {
+    @media screen and (min-width: 641px) and (max-width: 1007px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == tabletUp {
+    @media only screen and (min-width: 641px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == pocket {
+    @media only screen and (max-width: 1007px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == laptop {
+    @media screen and (min-width: 1008px) and (max-width: 1139px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == laptopUp {
+    @media only screen and (min-width: 1008px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == desktop {
+    @media screen and (min-width: 1140px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == widescreen {
+    @media screen and (min-width: 1500px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == largewidescreen {
+    @media screen and (min-width: 1800px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == tablet {
+    @media only screen and (max-width: 680px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == mobile {
+    @media only screen and (max-width: 481px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == wsTablet {
+    @media only screen and (max-width: 992px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == wsMobile {
+    @media only screen and (min-width: 576px) {
+      @content;
+    }
+  }
+}

@@ -1,0 +1,113 @@
+<section class="ws--Section {% unless section.settings.image %}py-13{% endunless %}">
+    {%- capture section_content -%}
+        <div class="feature-text-content-wrapper">
+            {%- if section.settings.subheading != blank or section.settings.title != blank -%}
+                <div class="feature-text-content">
+                    {%- if section.settings.subheading != blank -%}
+                        <h3 class="ws--heading ws--h6 mb-4">{{ section.settings.subheading | escape }}</h3>
+                    {%- endif -%}
+                    {%- if section.settings.title != blank -%}
+                        <h2 class="ws--heading ws--h1 my-4">{{ section.settings.title | escape }}</h2>
+                    {%- endif -%}
+                    {%- if section.settings.content != blank -%}
+                        <div class="ws--text my-4">
+                            {{ section.settings.content }}
+                        </div>
+                    {%- endif -%}
+                    {%- if section.settings.link_text != blank -%}
+                        <a href="{{ section.settings.link_url }}" class="ws--link ws--link-underline">{{ section.settings.link_text | escape }}</a>
+                    {%- endif -%}
+                </div>
+            {%- endif -%}
+        </div>
+    {%- endcapture -%}
+
+    {%- capture section_image -%}
+        {%- if section.settings.image != blank -%}
+            <div class="feature-text-image-wrapper">
+                <div class="feature-text-image">
+                    <img src="{{ section.settings.image | image_url }}" loading="lazy" alt="{{ section.settings.image.alt | escape }}">
+                    <noscript>
+                        <img src="{{ section.settings.image | image_url }}" loading="lazy" alt="{{ section.settings.image.alt | escape }}">
+                    </noscript>
+                </div>
+            </div>
+        {%- endif -%}
+    {%- endcapture -%}
+
+    <div class="feature-text-section {% if section.settings.image != blank %}feature-text-with-image feature-text-image-{{ section.settings.image_position }}{% endif %}">
+        {%- if section.settings.image_position == 'left' -%}
+            {{- section_image -}}
+            {{- section_content -}}
+        {%- else -%}
+            {{- section_content -}}
+            {{- section_image -}}
+        {%- endif -%}
+    </div>
+</section>
+
+{% schema %}
+{
+  "name": "Rich text with image",
+  "class": "shopify-section--bordered",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Sub-heading",
+      "default": "Sub-heading"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Title"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "1200 x 1200px .png recommended"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Text",
+      "default": "<p>Add your own custom content to give more information about your store, availability details...</p>"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Link text"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL"
+    }
+  ],
+  "presets": [
+    {
+      "category": "Text",
+      "name": "Rich text with image",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

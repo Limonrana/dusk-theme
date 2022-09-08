@@ -1,0 +1,27 @@
+/* newsletter-section */
+.newsletter-heading {
+  margin-bottom: 30px;
+}
+.newsletter-form .ws--form-submit-btn {
+  margin: 0 0 0 20px;
+}
+.newsletter-form .form-control {
+  padding: 9px;
+  border-radius: 0;
+  background-color: transparent;
+  border-color: #cfcfcf;
+  width: 80%;
+  display: inline;
+  color: #fff;
+  font-size: 14px;
+}
+.newsletter-form .form-control:focus {
+  box-shadow: none !important;
+  border-color: none !important;
+  outline: 0 !important;
+  border-color: #cfcfcf;
+}
+input.form-control::placeholder {
+  font-size: 13px;
+  color: #fff;
+}

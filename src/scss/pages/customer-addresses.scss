@@ -1,0 +1,50 @@
+.ws--address-page {
+  .ws--myAddress-page-title {
+    .ws--userPage-title {
+      .user-page-btn {
+        margin-bottom: 20px;
+        .page-back {
+          svg {
+            height: 9px;
+            margin-right: 12px;
+            vertical-align: baseline;
+            vertical-align: initial;
+          }
+        }
+      }
+      .user-page-title {
+        h2 {
+          margin-bottom: 20px;
+        }
+        p {
+          font-size: 14px;
+          color: #1c1b1b;
+        }
+      }
+    }
+  }
+  .ws--addressPage-section {
+    .card {
+      .card-footer {
+        .address-action-item {
+          flex-basis: content;
+        }
+      }
+    }
+  }
+}
+.custom-modal .modal-content {
+  border-radius: 0;
+}
+.custom-modal .modal-body {
+  padding: 0 30px 40px 30px;
+}
+.custom-modal .modal-header {
+  padding: 0;
+}
+.custom-modal .modal-header button {
+  padding: 10px 40px;
+}
+.custom-modal .ws--section-heading {
+  margin-bottom: 30px;
+}

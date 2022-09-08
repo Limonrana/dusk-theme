@@ -1,0 +1,38 @@
+// Mega Menu Display Grid Mixin
+@mixin mega-menu-display-grid {
+  @supports (display: grid) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+// Sidebar Menu Social Grid Mixin
+@mixin sidebar-menu-soical-grid {
+  @supports (display: grid) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 34px);
+    justify-content: space-evenly;
+    text-align: center;
+  }
+}
+
+// Mega Menu Hover mozilla Firefox OS
+@mixin mega-menu-hover-moz {
+  @media (-moz-touch-enabled: 0), (hover: hover) {
+    @content;
+  }
+}
+
+// Hover Effect Mixin
+@mixin hover-moz {
+  @media (-moz-touch-enabled: 0), (hover: hover) {
+    @content;
+  }
+}
+
+// support css variables Mixin
+@mixin support-var {
+  @supports (--css: variables) {
+    @content;
+  }
+}

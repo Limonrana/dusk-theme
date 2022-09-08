@@ -1,0 +1,126 @@
+/**
+ * ----------------------------------------------------------------------------
+ * Collection item (for list of collections)
+ * ----------------------------------------------------------------------------
+ */
+.ws--collection-card {
+  position: relative;
+  height: 500px;
+  overflow: hidden;
+}
+
+.ws--collection-card-small {
+  height: 450px;
+}
+
+.ws--collection-card-large {
+  height: 550px;
+}
+
+.ws--collection-card-image-wrapper {
+  width: auto;
+  height: 100%;
+  transform: scale(1);
+  transition: transform 8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.ws--collection-card-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+.ws--collection-card-content {
+  position: absolute;
+  padding: 0 24px;
+  margin-bottom: 0 !important;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+  text-align: left;
+}
+
+.ws--collection-card-content-bottom-center,
+.ws--collection-card-content-middle-center {
+  text-align: center;
+}
+
+.ws--collection-card-content-bottom-right,
+.ws--collection-card-content-middle-right {
+  text-align: right;
+}
+
+.ws--collection-card-content-bottom-left,
+.ws--collection-card-content-bottom-right,
+.ws--collection-card-content-bottom-center {
+  bottom: 24px;
+  top: auto;
+  left: 0;
+  transform: none;
+}
+
+@media (-moz-touch-enabled: 0), (hover: hover) {
+  .ws--collection-card:hover .ws--collection-card-image-wrapper {
+    transform: scale(1.2);
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .ws--collection-card-content-bottom-left,
+  .ws--collection-card-content-bottom-right,
+  .ws--collection-card-content-bottom-center {
+    bottom: 70px;
+  }
+}
+
+@media screen and (min-width: 641px) {
+  .ws--collection-card-content-bottom-left,
+  .ws--collection-card-content-bottom-right,
+  .ws--collection-card-content-bottom-center {
+    bottom: 40px;
+  }
+  .ws--collection-card-expand {
+    flex-grow: 1;
+  }
+  .ws--collection-card-space .ws--collection-card {
+    margin: 15px;
+  }
+  .ws--collection-card-space {
+    margin: 15px !important;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .ws--collection-card-space .ws--collection-card {
+    margin: 15px;
+  }
+}
+
+@media screen and (min-width: 1140px) {
+  .ws--collection-card {
+    height: 600px;
+  }
+
+  .ws--collection-card-small {
+    height: 500px;
+  }
+
+  .ws--collection-card-large {
+    height: 700px;
+  }
+
+  .ws--collection-card-content {
+    padding: 0 50px;
+  }
+
+  .ws--collection-card-content-bottom-left,
+  .ws--collection-card-content-bottom-right,
+  .ws--collection-card-content-bottom-center {
+    bottom: 50px;
+  }
+}

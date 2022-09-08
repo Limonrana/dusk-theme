@@ -1,0 +1,350 @@
+<section class="ws--section py-12" data-section-id="{{ section.id }}">
+    <div class="shop-look">
+        <div class="ws--silder-container">
+            {%- if section.settings.subheading != blank or section.settings.title != blank -%}
+                <div class="shop-look-heading">
+                    {%- if section.settings.subheading != blank -%}
+                        <h3 class="ws--heading ws--h6 mb-3">{{ section.settings.subheading | escape }}</h3>
+                    {%- endif -%}
+                    {%- if section.settings.title != blank -%}
+                        <h2 class="ws--heading ws--h1">{{ section.settings.title | escape }}</h2>
+                    {%- endif -%}
+                </div>
+            {%- endif %}
+            <div class="shop-look-slider">
+                <div id="shopLookSliderIndicators-{{ section.id }}" class="carousel slide">
+                    <div class="carousel-inner">
+                        {%- for block in section.blocks -%}
+                            {%- assign main_for_loop_index = forloop.index0 -%}
+                            {%- if block.settings.image == blank and block.settings.product_1 == blank and block.settings.product_2 == blank and block.settings.product_3 == blank -%}
+                                {%- assign show_on_boarding = true -%}
+                            {%- else -%}
+                                {%- assign show_on_boarding = false -%}
+                            {%- endif -%}
+                            <div class="shop-look-slider-item carousel-item {% if forloop.first %}active{% endif %}">
+                                {%- if block.settings.image -%}
+                                    {%- assign max_width = 550 | times: block.settings.image.aspect_ratio | round -%}
+                                {%- else -%}
+                                    {%- assign max_width = 550 -%}
+                                {%- endif -%}
+                                <div class="shop-look-slider-image-wrapper" style="width: {{ max_width }}px; {% if block.settings.image %}background: url({{ block.settings.image | image_url: width: 1, height: 1, format: 'jpg' }}){% endif %}">
+                                    <div class="shop-look-slider-img">
+                                        {%- if show_on_boarding -%}
+                                            {%- capture placeholder -%}{% cycle 'collection-1', 'collection-2', 'collection-3', 'collection-4' %}{%- endcapture -%}
+                                            {{ placeholder | placeholder_svg_tag: 'ws--placeholder-svg ws--placeholder-svg-dark' }}
+                                        {%- else -%}
+                                            {%- if block.settings.image != blank -%}
+                                              {%- assign image_url = block.settings.image | image_url: width: max_width, format: 'pjpg' -%}
+                                              <img class="shop-look-image ws--image-lazy-load ws--image-fade-in"
+                                                   data-src="{{ image_url }}"
+                                                   loading="lazy"
+                                                   data-lazy
+                                                   alt="{{ block.settings.image.alt | escape }}">
+                            
+                                              <noscript>
+                                                <img class="shop-look-image" src="{{ block.settings.image | image_url: width: 600 }}" loading="lazy" alt="{{ block.settings.image.alt | escape }}">
+                                              </noscript>
+                                            {%- else -%}
+                                              {%- capture placeholder -%}{% cycle 'collection-1', 'collection-2', 'collection-3', 'collection-4' %}{%- endcapture -%}
+                                              {{ placeholder | placeholder_svg_tag: 'PlaceholderSvg PlaceholderSvg--dark' }}
+                                            {%- endif -%}
+                                        {%- endif -%}
+                                    </div>
+                                    {%- for i in (1..3) -%}
+                                        {%- assign product_setting = 'product_' | append: i -%}
+                                        {%- assign product = all_products[block.settings[product_setting]] -%}
+                        
+                                        {%- if product == empty and show_on_boarding == false -%}
+                                        {%- continue -%}
+                                        {%- endif -%}
+                        
+                                        {%- assign product_horizontal_position_setting = 'product_' | append: i | append: '_horizontal_position' -%}
+                                        {%- assign product_vertical_position_setting = 'product_' | append: i | append: '_vertical_position' -%}
+                                        {%- assign product_horizontal_position = block.settings[product_horizontal_position_setting] -%}
+                                        {%- assign product_vertical_position = block.settings[product_vertical_position_setting] -%}
+                        
+                                        <span class="shop-lookslider-dot shop-lookslider-dot-{{ block.settings.dot_style }} {% if forloop.first %}is-active{% endif %}" data-silder-index="{{ main_for_loop_index }}" data-product-dot-index="{{ i }}" style="left: {{ product_horizontal_position }}%; top: {{ product_vertical_position }}%"></span>
+                                    {%- endfor -%}
+                                </div>
+
+                                {%- assign first_product = '' -%}
+                                {%- assign products_count = 0 -%}
+
+                                {%- capture shop_the_look_products -%}
+                                    {%- if show_on_boarding -%}
+                                        {%- for i in (1..3) -%}
+                                            {%- assign products_count = products_count | plus: 1 -%}
+                                            <div id="product-item-block-{{ block.id }}" class="carousel-item {% if forloop.first %}active{% endif %}" data-product-item-url="#" data-product-item="{{ main_for_loop_index }}-{{ forloop.index0 }}">
+                                                <div class="product-item-wrapper">
+                                                    <a href="#" class="product-item-image-wrapper">
+                                                        {%- capture placeholder -%}{% cycle 'product-1', 'product-2', 'product-3' %}{%- endcapture -%}
+                                                        {{ placeholder | placeholder_svg_tag: 'product-item-image ws--placeholder-svg ws--placeholder-svg-dark' }}
+                                                    </a>
+
+                                                    <div class="product-item-info text-center">
+                                                        <h2 class="product-item-title ws--heading">{{ 'home_page.onboarding.product_title' | t }}</h2>
+
+                                                        <div class="product-item-price-list ws--heading">
+                                                            <span class="product-item-price">{{ 4500 | money_without_trailing_zeros }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {%- endfor -%}
+                                    {%- else -%}
+                                        {%- for i in (1..3) -%}
+                                            {%- assign product_setting = 'product_' | append: i -%}
+                                            {%- assign product = all_products[block.settings[product_setting]] -%}
+
+                                            {%- if product == empty -%}
+                                                {%- continue -%}
+                                            {%- endif -%}
+
+                                            {%- if first_product == blank -%}
+                                            {%- assign first_product = product -%}
+                                            {%- endif -%}
+
+                                            {%- assign products_count = products_count | plus: 1 -%}
+
+                                            {%- if product.media[1] != blank -%}
+                                                {%- assign has_alternate_image = true -%}
+                                            {%- else -%}
+                                                {%- assign has_alternate_image = false -%}
+                                            {%- endif -%}
+
+                                            <div id="product-item-block-{{ block.id }}" class="carousel-item {% if forloop.first %}active{% endif %}" data-product-item-url="{{ product.url | escape }}" data-product-item="{{ main_for_loop_index }}-{{ forloop.index0 }}">
+                                                <div class="product-item-wrapper">
+                                                    <a href="{{ product.url | within: collection }}" class="product-item-image-wrapper {% if has_alternate_image %}product-item-image-wrapper-with-alternate-image{% endif %}">
+                                                        {%- if has_alternate_image -%}
+                                                            {%- assign image_url = product.media[1] | image_url -%}
+                                                            <img class="product-item-image product-item-image-alternate ws--image-lazy-load" data-src="{{ image_url }}" loading="lazy" data-lazy alt="{{ product.media[1].alt | escape }}">
+                                                        {%- endif -%}
+
+                                                        {%- assign image_url = product.featured_media | image_url -%}
+                                                        <img class="product-item-image ws--image-lazy-load" data-src="{{ image_url }}" loading="lazy" data-lazy alt="{{ block.settings.image.alt | escape }}">
+                                                    </a>
+
+                                                    <div class="product-item-info text-center">
+                                                        <h2 class="product-item-title ws--heading">
+                                                            <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
+                                                        </h2>
+
+                                                        <div class="product-item-price-list ws--heading">
+                                                            <span class="product-item-price">{{ product.price | money_without_trailing_zeros }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {%- endfor -%}
+                                    {%- endif -%}
+                                {%- endcapture -%}
+
+                                <div class="shop-the-look-view-popup-btn ws--hidden-laptop-and-up" style="width: {{ max_width }}px;">
+                                    <a href="#" class="shop-the-look-view-btn ws--btn ws--btn-primary ws--btn-full">{{ 'home_page.shop_the_look.view_product' | t }}</a>
+                                </div>
+
+                                <div class="shop-look-slider-product-items ws--hidden-pocket">
+                                    <div id="productItemIndicators-{{ main_for_loop_index }}-{{ section.id }}" class="carousel slide">
+                                        <div class="carousel-inner">
+                                            {{ shop_the_look_products }}
+                                        </div>
+                                        <a href="{{ first_product.url }}" class="shop-the-look-view-btn ws--btn ws--btn-primary ws--btn-full">{{ 'home_page.shop_the_look.view_product' | t }}</a>
+                                        {% if products_count > 1 %}
+                                            <ol class="carousel-indicators">
+                                                {%- for i in (1..products_count) -%}
+                                                    <li data-bs-target="#productItemIndicators-{{ main_for_loop_index }}-{{ section.id }}" data-bs-slide-to="{{ forloop.index0 }}" class="product--item-dot {% if forloop.first %}active{% endif %}" data-product-item-dot="{{ main_for_loop_index }}-{{ forloop.index0 }}"></li>
+                                                {%- endfor %}
+                                            </ol>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {%- endfor -%}
+                    </div>
+                    {% if section.blocks.size != 0 %}
+                        <button class="carousel-control-prev ws--next-prev-btn" type="button" data-slider-target="#shopLookSliderIndicators-{{ section.id }}" data-slide="prev">
+                            <svg viewBox="0 0 100 100"><path d="M 20,50 L 60,90 L 60,85 L 25,50  L 60,15 L 60,10 Z" class="arrow"></path></svg>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next ws--next-prev-btn" type="button" data-slider-target="#shopLookSliderIndicators-{{ section.id }}" data-slide="next">
+                            <svg viewBox="0 0 100 100"><path d="M 20,50 L 60,90 L 60,85 L 25,50  L 60,15 L 60,10 Z" class="arrow" transform="translate(100, 100) rotate(180) "></path></svg>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>  
+</section>
+
+{% schema %}
+{
+  "name": "Shop the look",
+  "class": "shopify-section--bordered",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "For best results (especially on mobile), we recommend using images with the same dimensions."
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Sub-heading",
+      "default": "Shop"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Our looks"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_mobile_product_info",
+      "label": "Show product info on mobile",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "look",
+      "name": "Look",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "975 x 1185px .jpg recommended (vertical image) or 1200 x 1200px .jpg recommended (square image)."
+        },
+        {
+          "type": "select",
+          "id": "dot_style",
+          "label": "Hotspot style",
+          "options": [
+            {
+              "value": "light",
+              "label": "Light"
+            },
+            {
+              "value": "dark",
+              "label": "Dark"
+            }
+          ],
+          "default": "light"
+        },
+        {
+          "type": "header",
+          "content": "Product 1"
+        },
+        {
+          "type": "product",
+          "id": "product_1",
+          "label": "Product",
+          "info": "Product not showing correctly? Make sure you have the product in your store."
+        },
+        {
+          "type": "range",
+          "id": "product_1_horizontal_position",
+          "label": "Horizontal position",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "unit": "%",
+          "default": 15
+        },
+        {
+          "type": "range",
+          "id": "product_1_vertical_position",
+          "label": "Vertical position",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "unit": "%",
+          "default": 15
+        },
+        {
+          "type": "header",
+          "content": "Product 2"
+        },
+        {
+          "type": "product",
+          "id": "product_2",
+          "label": "Product",
+          "info": "Product not showing correctly? Make sure you have the product in your store."
+        },
+        {
+          "type": "range",
+          "id": "product_2_horizontal_position",
+          "label": "Horizontal position",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "unit": "%",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "product_2_vertical_position",
+          "label": "Vertical position",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "unit": "%",
+          "default": 50
+        },
+        {
+          "type": "header",
+          "content": "Product 3"
+        },
+        {
+          "type": "product",
+          "id": "product_3",
+          "label": "Product",
+          "info": "Product not showing correctly? Make sure you have the product in your store."
+        },
+        {
+          "type": "range",
+          "id": "product_3_horizontal_position",
+          "label": "Horizontal position",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "unit": "%",
+          "default": 85
+        },
+        {
+          "type": "range",
+          "id": "product_3_vertical_position",
+          "label": "Vertical position",
+          "min": 10,
+          "max": 90,
+          "step": 1,
+          "unit": "%",
+          "default": 85
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "category": "Product",
+      "name": "Shop the look",
+      "settings": {},
+      "blocks": [
+        {
+          "type": "look",
+          "settings": {
+            "product_1_horizontal_position": 30,
+            "product_1_vertical_position": 40,
+            "product_2_horizontal_position": 45,
+            "product_2_vertical_position": 65,
+            "product_3_horizontal_position": 70,
+            "product_3_vertical_position": 50
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

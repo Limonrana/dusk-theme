@@ -1,0 +1,435 @@
+/*------------------------------------
+ *   Header CSS Start from here
+ *------------------------------------*/
+
+.ws--header {
+  background-color: #fff;
+  padding: 0;
+  margin: 0;
+  box-shadow: 0 -1px #dddddd inset;
+  border-bottom: 1px solid #e5e5e5;
+  color: #1c1b1b;
+  transition: background 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  @include devices(desktop) {
+    &.ws--header-logo-left {
+      .ws--header-flex-item-logo {
+        order: -1;
+        margin-right: 38px;
+      }
+      .ws--header-flex-item-fill {
+        &:last-child {
+          flex: none;
+        }
+      }
+    }
+  }
+  .ws--header-wrapper {
+    position: relative;
+    padding: 10px 50px;
+    .ws--header-flex-item {
+      display: flex;
+      .ws--header-nav {
+        margin-right: 45px;
+      }
+    }
+    .ws--header-secondary-nav {
+      margin-right: 0 !important;
+    }
+    .ws--header-flex-item-fill {
+      flex: 1 0 0;
+      align-items: center;
+    }
+    .ws--header-flex-item-fill:last-child {
+      justify-content: flex-end;
+    }
+    .ws--horizontal-menu-list {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+      list-style: none;
+      margin: -6px -8px;
+      .ws--horizontal-menu-list-item {
+        margin-left: 15px;
+        a {
+          color: rgb(var(--color-foreground));
+          text-decoration: none;
+          transition: color 0.2s ease-in-out;
+        }
+        a:hover {
+          color: rgb(var(--color-primary));
+          .ws--header-link-spacer:after {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+      }
+      .is-ws-visible {
+        opacity: 1;
+        visibility: visible;
+        .ws--header-link-spacer:after {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      .ws--header-link-spacer {
+        position: absolute;
+        display: block;
+        bottom: 0;
+        color: transparent;
+        pointer-events: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+      .ws--header-link-spacer:after {
+        position: absolute;
+        content: "";
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        opacity: 0;
+        transform: scaleX(0);
+        transform-origin: left center;
+        border-bottom: 2px solid var(--bs-gray-dark);
+        transition: transform 0.3s, opacity 0.3s;
+      }
+      .is-active .ws--header-link-spacer:after {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    .ws--header-icon {
+      display: inline-block;
+      line-height: 1;
+      transition: color 0.2s ease-in-out;
+      span {
+        display: block;
+      }
+      @include devices(tabletUp) {
+        .ws--icon-account {
+          position: relative;
+          top: 2px;
+          width: 20px;
+          height: 20px;
+        }
+      }
+      .ws--icon-search {
+        position: relative;
+        top: 1px;
+        width: 18px;
+        height: 17px;
+      }
+      @include devices(tabletUp) {
+        .ws--icon-search-desktop {
+          position: relative;
+          top: 2px;
+          width: 21px;
+          height: 21px;
+        }
+      }
+      .ws--icon-cart {
+        width: 17px;
+        height: 20px;
+      }
+      @include devices(tabletUp) {
+        .ws--icon-cart-desktop {
+          height: 23px;
+          width: 19px;
+        }
+      }
+      .ws--header-cart-dot {
+        position: absolute;
+        top: 2px;
+        right: -6px;
+        width: 8px;
+        height: 8px;
+        border-radius: 100%;
+        background-color: var(--header-heading-color);
+        box-shadow: 0 0 0 2px var(--header-background);
+        transform: scale(0);
+        transition: all 0.3s ease-in-out;
+      }
+    }
+    @include devices(tabletUp) {
+      .ws--header-icon + .ws--header-icon {
+        margin-left: 25px;
+      }
+    }
+    .ws--icon--nav {
+      height: 14px;
+      width: 20px;
+    }
+    @include devices(tabletUp) {
+      .ws--icon-nav-desktop {
+        height: 17px;
+        width: 24px;
+      }
+    }
+    .ws--icon-wrapper-clickable {
+      position: relative;
+      background: transparent;
+    }
+    .ws--icon-wrapper-clickable:before {
+      position: absolute;
+      content: "";
+      top: -8px;
+      right: -12px;
+      left: -12px;
+      bottom: -8px;
+      transform: translateZ(0);
+    }
+    .ws--header-localization-form {
+      .ws--horizontal-list {
+        .ws--horizontal-list-item {
+          margin-right: 15px;
+        }
+      }
+    }
+  }
+}
+
+// Search bar related CSS
+.ws--search {
+  display: block;
+  position: absolute;
+  top: 11%;
+  width: 100%;
+  background: #efefef;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-25px);
+  transition: transform 0.15s ease-in-out, opacity 0.15s ease-in-out,
+    visibility 0.15s ease-in-out;
+  z-index: -1;
+  &[aria-hidden="false"] {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+  .ws--search-inner {
+    padding: 14px 18px;
+    max-height: calc(100vh - 60px);
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    .ws--search-search-bar {
+      display: flex;
+      align-items: center;
+      .ws--search-form {
+        display: flex;
+        align-items: center;
+        flex: 1 0 auto;
+        .ws--icon-search {
+          width: 18px;
+          height: 17px;
+        }
+        .ws--icon-search-desktop {
+          width: 21px;
+          height: 21px;
+        }
+        .ws--search-input-icon-wrapper {
+          position: relative;
+          top: -1px;
+          margin-right: 12px;
+          color: #6a6a6a;
+        }
+        .ws--search-input {
+          background: none;
+          width: 100%;
+          border: none;
+          font-size: calc(14px - (14px - 15px));
+          vertical-align: middle;
+          &::-moz-placeholder {
+            color: #6a6a6a;
+          }
+          &:-ms-input-placeholder {
+            color: #6a6a6a;
+          }
+          &::placeholder {
+            color: #6a6a6a;
+          }
+          &::-ms-clear {
+            display: none;
+          }
+          &:focus {
+            outline: none;
+          }
+          @include devices(tabletUp) {
+            font-size: calc(14px - (14px - 18px));
+          }
+        }
+      }
+      .ws--search-close {
+        color: #6a6a6a;
+        font-size: calc(14px - (14px - 15px));
+        line-height: 1;
+        &svg {
+          stroke-width: 1.25px;
+        }
+      }
+    }
+    @include devices(tabletUp) {
+      padding: 28px 60px;
+    }
+    .ws--search-results {
+      display: none;
+      margin-top: 30px;
+      margin-bottom: 30px;
+      &[aria-hidden="false"] {
+        display: block;
+      }
+      .ws--product-item-wrapper {
+        @include devices(phone) {
+          display: flex;
+          align-items: center;
+        }
+      }
+      .ws--product-item-image-wrapper {
+        @include devices(phone) {
+          width: 70px;
+          min-width: 70px;
+          margin-right: 25px;
+        }
+      }
+      .ws--product-item-info {
+        @include devices(phone) {
+          margin-top: 0;
+          text-align: left;
+        }
+      }
+      @include devices(tabletUp) {
+        margin-top: 70px;
+        margin-bottom: 48px;
+      }
+    }
+  }
+}
+
+// Curency Dropdown CSS
+.ws--select-button {
+  position: relative;
+  color: currentColor;
+  padding: 2px 18px 2px 0;
+  background: transparent;
+  border: none;
+  font-weight: 500;
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  svg {
+    position: absolute;
+    top: calc(50% - 3px);
+    right: 0;
+    height: 6px;
+  }
+}
+.ws--popover {
+  position: fixed;
+  max-width: 375px;
+  bottom: 0;
+  left: 0;
+  background: #ffffff;
+  z-index: 10;
+  box-shadow: 0 -2px 10px #36363633;
+  touch-action: manipulation;
+  transform: translateY(100%);
+  visibility: hidden;
+  transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+  &::before {
+    content: "";
+    position: absolute;
+    right: 40px;
+    width: 10px;
+    height: 10px;
+    border-style: solid;
+  }
+  &.ws--popover-position-bottom::before {
+    border-width: 0 8px 8px 8px;
+    left: calc(50% - 10px);
+    bottom: 100%;
+    border-width: 0 10px 10px 10px;
+    border-color: transparent transparent #fff transparent;
+    -webkit-filter: drop-shadow(0 -2px 2px rgba(54, 54, 54, 0.2));
+    filter: drop-shadow(0 -2px 2px rgba(54, 54, 54, 0.2));
+  }
+  &.ws--popover-position-top::before {
+    border-width: 8px 8px 0 8px;
+    left: calc(50% - 10px);
+    top: 100%;
+    border-width: 10px 10px 0 10px;
+    border-color: #fff transparent transparent transparent;
+    -webkit-filter: drop-shadow(0 2px 2px rgba(54, 54, 54, 0.2));
+    filter: drop-shadow(0 2px 2px rgba(54, 54, 54, 0.2));
+  }
+  &[aria-hidden="false"] {
+    transform: translateY(0);
+    visibility: visible;
+  }
+  .ws--popover-value-list {
+    list-style: none;
+    max-height: 385px;
+    padding: 18px 0;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ws--popover-value {
+    display: block;
+    padding: 12px 20px;
+    width: 100%;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: var(--text-color-light);
+    font-size: 10px;
+    text-align: center;
+    transition: color 0.2s ease-in-out;
+    &:focus {
+      background: var(--background);
+      outline: none;
+    }
+    &.is-selected {
+      color: #6a6a6a;
+      background-color: #f3f3f3;
+    }
+    &:hover {
+      color: #6a6a6a;
+      background-color: #f3f3f3;
+    }
+  }
+
+  .ws--popover-footer-help {
+    width: 100%;
+    padding: 18px 20px;
+    text-align: center;
+    border-top: 1px solid rgba(var(--border-color-rgb), 0.4);
+  }
+
+  @supports (padding: max(0px)) {
+    .ws--popover-value-list {
+      max-height: calc(385px + env(safe-area-inset-bottom, 0px));
+      padding-bottom: max(18px, env(safe-area-inset-bottom, 0px) + 18px);
+    }
+  }
+}
+
+@include devices(laptopUp) {
+  .ws--popover {
+    transform: none;
+    width: auto;
+    bottom: auto;
+    left: auto;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+  }
+}
+
+header.ws--header-transparent {
+  box-shadow: 0 -1px rgb(255 255 255 / 25%) inset !important;
+  color: #ffffff !important;
+}

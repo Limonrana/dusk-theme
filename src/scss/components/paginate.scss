@@ -1,0 +1,46 @@
+/*---------------------------------------
+ *   WS Pagination CSS Start for elements
+ *--------------------------------------*/
+.ws--pagination {
+  .page-item {
+    padding: 0 20px;
+    border-bottom: 1px solid #cfcfcf;
+    .page-link {
+      font-size: 14px;
+      color: #6a6a6a;
+      border: 0;
+      margin-bottom: 10px;
+      background-color: transparent;
+      svg {
+        width: 6px;
+        height: 10px;
+        vertical-align: -1px;
+      }
+      &:hover {
+        background-color: transparent;
+        color: #1c1b1b !important;
+      }
+      &:focus {
+        font-size: 16px;
+        color: #1c1b1b !important;
+        background-color: transparent;
+        outline: 0;
+        box-shadow: none;
+        border-bottom: 1px solid #1c1b1b;
+      }
+    }
+    &.disabled {
+      .page-link {
+        background-color: transparent;
+      }
+    }
+    &.is-active {
+      .page-link {
+        color: #1c1b1b;
+      }
+      color: #1c1b1b;
+      border-bottom-color: #1c1b1b;
+      box-shadow: 0 -2px #1c1b1b inset;
+    }
+  }
+}

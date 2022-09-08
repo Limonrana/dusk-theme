@@ -1,0 +1,128 @@
+<section id="section-{{ section.id }}">
+    <div class="story_section">
+        {%- capture mobile_size -%}750x{% if section.settings.image.height >= 960 %}960{% else %}{{ section.settings.image.height }}{% endif %}{%- endcapture -%}
+        <div class="d-flex justify-content-center align-items-center">
+            <div class="ws--hero-image {% if section.settings.section_size != 'normal' %}ws--hero-image-{{ section.settings.section_size }}{% endif %}" {% if section.settings.image %}style="background: url({{ section.settings.image | image_url }})"{% endif %}>
+                <div class="ws--hero-image-wrapper">
+                    <div class="ws--hero-image-bg {% if section.settings.overlay_opacity > 0 %}ws--hero-image-has-overlay{% endif %} ws--image-zoom-out ws--image-lazy-load" {% if section.settings.image %}data-src="{{ section.settings.image | image_url }}"{% endif %} data-lazy-bg>
+                    </div>
+                    <noscript>
+                        <div class="ws--hero-image-bg" style="background-image: url({{ section.settings.image | image_url: width: 1000 }})"></div>
+                    </noscript>
+                    {%- unless section.settings.image != blank -%}
+                        <div class="ws--placeholder-background ws--placeholder-background-dark">
+                        {{ 'lifestyle-1' | placeholder_svg_tag: 'ws--placeholder-background-svg' }}
+                        </div>
+                    {%- endunless -%}
+                </div>
+                <!-- image overlay content -->
+                <div class="ws--hero-image-content-overlay">
+                    <div class="story-content">
+                        {%- if section.settings.subheading != blank -%}
+                            <h3 class="ws--heading ws--h6">{{ section.settings.subheading | escape }}</h3>
+                        {%- endif -%}
+                        {%- if section.settings.title != blank -%}
+                            <h2 class="ws--heading ws--h1">{{ section.settings.title | escape }}</h2>
+                        {%- endif -%}
+                        {%- if section.settings.content != blank -%}
+                            <p class="ws--text">{{ section.settings.content }}</p>
+                        {%- endif -%}
+                    </div>
+                </div>
+                <!-- End image overlay content -->
+            </div>
+        </div>
+    </div> 
+</section>
+  
+  <style>
+    #section-{{ section.id }},
+    #section-{{ section.id }} .ws--heading {
+      color: {{ section.settings.text_color }};
+    }
+  
+    #section-{{ section.id }} .ws--hero-image-has-overlay::before {
+      {%- assign overlay_opacity = section.settings.overlay_opacity | divided_by: 100.0 -%}
+      background-color: {{ section.settings.overlay_color | color_modify: 'alpha', overlay_opacity }};
+    }
+  </style>
+  
+  {% schema %}
+  {
+    "name": "Image with text overlay",
+    "settings": [
+      {
+        "type": "select",
+        "id": "section_size",
+        "label": "Section size",
+        "options": [
+          {
+            "value": "small",
+            "label": "Small"
+          },
+          {
+            "value": "normal",
+            "label": "Normal"
+          },
+          {
+            "value": "large",
+            "label": "Large"
+          }
+        ],
+        "default": "large"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image",
+        "info": "1500 x 800px .jpg recommended"
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "overlay_color",
+        "label": "Overlay",
+        "default": "#000000"
+      },
+      {
+        "type": "range",
+        "id": "overlay_opacity",
+        "label": "Overlay opacity",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "default": 30
+      },
+      {
+        "type": "text",
+        "id": "subheading",
+        "label": "Sub-heading"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Tell your story"
+      },
+      {
+        "type": "richtext",
+        "id": "content",
+        "label": "Text",
+        "default": "<p>Add your own custom content to give more information about your store, availability details...</p>"
+      }
+    ],
+    "presets": [
+      {
+        "category": "Image",
+        "name": "Image with text (overlay)",
+        "settings": {}
+      }
+    ]
+  }
+  {% endschema %}

@@ -1,0 +1,119 @@
+/**
+* ----------------------------------------------------------------------------
+* Mega menu
+* ----------------------------------------------------------------------------
+*/
+
+.ws--mega-menu {
+  position: absolute;
+  padding: 20px 0;
+  width: 100%;
+  left: 0;
+  top: 100%;
+  visibility: hidden;
+  opacity: 0;
+  max-height: 600px;
+  overflow: auto;
+  -ms-scroll-chaining: none;
+  overscroll-behavior: contain;
+  text-align: left;
+  background: #ffffff;
+  border-bottom: 1px solid #dddddd;
+  transition: all 0.3s ease-in-out;
+  &[aria-hidden="false"] {
+    visibility: visible;
+    opacity: 1;
+  }
+  .ws--mega-menu-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    max-width: 1450px;
+    margin: 0 auto;
+    padding: 0 10px;
+    .ws--mega-menu-item {
+      margin: 20px 40px;
+      flex-shrink: 1;
+      &.ws--mega-menu-item-fit {
+        flex-shrink: 0;
+      }
+      .ws--mega-menu-title {
+        display: block;
+        margin-bottom: 20px;
+        color: #6a6a6a;
+        &:hover {
+          color: #6a6a6a;
+        }
+      }
+      .ws--mega-menu-push {
+        display: inline-block;
+        text-align: center;
+        vertical-align: top;
+        width: 100%;
+        &.ws--mega-menu-push-shrink {
+          width: 50%;
+          &:first-child {
+            padding-right: 15px;
+          }
+          &:last-child {
+            padding-left: 15px;
+          }
+        }
+        .ws--mega-menu-push-image-wrapper {
+          margin: 8px auto 20px auto;
+          max-width: 100%;
+          overflow: hidden;
+        }
+        .ws--mega-menu-push-heading {
+          font-size: 15px;
+          font-weight: 500;
+          text-transform: uppercase;
+          margin-bottom: 5px;
+          letter-spacing: 3px;
+        }
+        .ws--mega-menu-push-sub-heading {
+          font-size: 12px;
+          font-weight: 300;
+          text-transform: uppercase;
+          margin-bottom: 5px;
+          letter-spacing: 3px;
+        }
+        img {
+          transform: scale(1);
+          transition: opacity 0.5s ease,
+            transform 8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        img:hover {
+          transform: scale(1.2);
+        }
+        @include mega-menu-hover-moz() {
+          &img {
+            transform: scale(1);
+            transition: opacity 0.5s ease,
+              transform 8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+          }
+          &:hover img {
+            transform: scale(1.2);
+          }
+        }
+      }
+    }
+  }
+  &.ws--mega-menu-spacing-evenly {
+    .ws--mega-menu-inner {
+      justify-content: space-around;
+      justify-content: space-evenly; /* space-evenly is not supported everywhere */
+    }
+  }
+  &.ws--mega-menu-spacing-center {
+    .ws--mega-menu-inner {
+      justify-content: center;
+    }
+  }
+  .ws--mega-menu-grid {
+    .ws--mega-menu-inner {
+      @include mega-menu-display-grid;
+    }
+  }
+}

@@ -1,0 +1,136 @@
+{%- capture autoplay -%}
+  {% if section.settings.autoplay %}
+    {{ section.settings.cycle_speed | times: 1000 }}
+  {% else %}
+    false
+  {% endif %}
+{%- endcapture -%}
+
+<section class="ws--section py-12" id="section-{{ section.id }}">
+    <div class="testimonial-section">
+        <div class="container">
+            <div id="carouselTestimonialIndicators-{{ section.id }}" class="carousel slide" {% if section.settings.autoplay %}data-bs-ride="carousel"{% endif %}>
+                <div class="carousel-inner">
+                    {%- for block in section.blocks -%}
+                        <div id="carousel-block-{{ block.id }}" class="carousel-item {% if forloop.first %}active{% endif %}" {{ block.shopify_attributes }} data-bs-interval="{{ autoplay }}">
+                            <div class="testimonial-content text-center">
+                                {%- if block.settings.quote != blank -%}
+                                    <div class="testimonial-slider">
+                                        <p>{{ block.settings.quote }}</p>
+                                    </div>
+                                {%- endif -%}
+
+                                {%- if block.settings.logo != blank -%}
+                                    <div class="testimonial-logo">
+                                        <img src="{{ block.settings.logo | image_url: width: 300 }}" alt="{{ block.settings.logo.alt | escape }}" />
+                                    </div>
+                                {%- endif -%}
+                            </div>
+                        </div>
+                    {%- endfor %}
+                </div>
+                {% if section.blocks.size > 1 %}
+                    <ol class="carousel-indicators">
+                        {%- for block in section.blocks -%}
+                            <li data-bs-target="#carouselTestimonialIndicators-{{ section.id }}" data-bs-slide-to="{{ forloop.index0 }}" class="dot {% if forloop.first %}active{% endif %}"></li>
+                        {%- endfor %}
+                    </ol>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    #section-{{ section.id }} {
+      color: {{ section.settings.text_color }};
+      background: {{ section.settings.background }};
+    }
+  
+    #section-{{ section.id }} .dot:not(.active) {
+      border-color: {{section.settings.background | color_mix: section.settings.text_color, 85}} !important;
+    }
+    #section-{{ section.id }} .dot.active {
+      background-color: {{ section.settings.text_color }} !important;
+    }
+  </style>
+  
+  {% schema %}
+  {
+    "name": "Testimonials",
+    "class": "shopify-section--bordered",
+    "max_blocks": 6,
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "autoplay",
+        "label": "Auto rotate between testimonials",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "cycle_speed",
+        "min": 3,
+        "max": 8,
+        "step": 1,
+        "unit": "sec",
+        "label": "Change testimonials every",
+        "default": 5
+      },
+      {
+        "type": "color",
+        "id": "background",
+        "label": "Background",
+        "default": "#eaeaea"
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text",
+        "default": "#1c1b1b"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "testimonial",
+        "name": "Testimonial",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "logo",
+            "label": "Logo",
+            "info": "340 x 80px .jpg recommended"
+          },
+          {
+            "type": "richtext",
+            "id": "quote",
+            "label": "Quote",
+            "default": "<p>Share what your customers are saying about your products, your company...</p>",
+            "info": "For best results, keep the word count consistent in each quote."
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "category": "Text",
+        "name": "Testimonials",
+        "settings": {},
+        "blocks": [
+          {
+            "type": "testimonial",
+            "settings": {}
+          },
+          {
+            "type": "testimonial",
+            "settings": {}
+          },
+          {
+            "type": "testimonial",
+            "settings": {}
+          }
+        ]
+      }
+    ]
+  }
+  {% endschema %}

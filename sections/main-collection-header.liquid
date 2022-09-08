@@ -1,0 +1,74 @@
+{% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+{%- assign isBgImage = false -%}
+{%- assign mainClasses = 'ws--page-header' -%}
+{%- if section.settings.show_collection_image and collection.image -%}
+  {%- assign isBgImage = true -%}
+  {%- assign mainClasses = 'ws--page-header ws--page-header-with-background' -%}
+{%- endif -%} 
+
+<section class="ws--container-lg">
+    <div class="{{ mainClasses }} ws--page-header-{{ section.settings.collection_image_size }}" {%- if isBgImage -%}style="background: url({{ collection.image | image_url: width: 1, height: 1, format: 'jpg' }})"{%- endif -%}>
+      {%- if isBgImage -%}
+        <div class="ws--page-header-image-wrapper ws--image-lazy-load Image--fadeIn ws--image-contrast"
+          data-src="{{ collection.image | image_url }}" data-lazy-bg
+          >
+        </div>
+
+        <noscript>
+          <div class="ws--page-header-image-wrapper ws--image-contrast" style="background-image: url({{ collection.image | image_url: width: 800 }})"></div>
+        </noscript>
+      {%- endif -%}
+      <div class="ws--page-section-header text-center">
+        <h2 class="ws--h1 ws--heading">{{- collection.title | escape -}}</h2>
+        {%- if section.settings.show_collection_description -%}
+          <p class="ws--collection-hero-description rte">{{ collection.description }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection header",
+  "class": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Add a description or image by editing your collection. [Learn more](https:\/\/help.shopify.com\/manual\/products\/collections\/collection-layout)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_description",
+      "default": true,
+      "label": "Show collection description"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_image",
+      "default": false,
+      "label": "Show collection image",
+      "info": "For best results, use an image with a 16:9 aspect ratio. [Learn more](https:\/\/help.shopify.com\/manual\/shopify-admin\/productivity-tools\/image-editor#understanding-image-aspect-ratio)"
+    },
+    {
+      "type": "select",
+      "id": "collection_image_size",
+      "label": "Collection image size",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "normal"
+    }
+  ]
+}
+{% endschema %}

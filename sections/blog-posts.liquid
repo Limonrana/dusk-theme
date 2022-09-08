@@ -1,0 +1,172 @@
+<section class="ws--section py-12" id="section-{{ section.id }}">
+    <div class="container">
+        <!-- section heading -->
+        {%- if section.settings.subheading != blank or section.settings.title != blank -%}
+            <div class="row text-center mb-12">
+                <div class="col-lg-12">
+                    {%- if section.settings.subheading != blank -%}
+                        <h3 class="ws--heading ws--h6">{{ section.settings.subheading | escape }}</h3>
+                    {%- endif -%}
+                    {%- if section.settings.title != blank -%}
+                        <h2 class="ws--heading ws--h1">{{ section.settings.title | escape }}</h2>
+                    {%- endif -%}
+                </div>
+            </div>
+        {%- endif -%}
+
+        {%- assign is_empty = true -%}
+
+        <div class="row">
+            {%- assign block = section.blocks.first -%}
+            {%- case block.type -%}
+                {%- when 'article' -%}
+                    {%- for i in (1..3) -%}
+                        {%- assign article_option = 'article_' | append: i -%}
+                        {%- assign article = articles[block.settings[article_option]] -%}
+          
+                        {%- unless article == empty -%}
+                          <div class="col-lg-4 {% if forloop.index == 3 %}ws--hidden-tablet{% endif %}">
+                                {%- render 'article-item', block: block, article: article -%}
+                          </div>
+          
+                          {%- assign is_empty = false -%}
+                        {%- endunless -%}
+                    {%- endfor -%}
+
+                {%- when 'blog' -%}
+                    {%- assign blog = blogs[block.settings.blog] -%}
+        
+                    {%- for article in blog.articles limit: 3 -%}
+                        <div class="col-lg-4 {% if forloop.index == 3 %}ws--hidden-tablet{% endif %}">
+                            {%- render 'article-item', block: block, article: article -%}
+                        </div>
+        
+                        {%- assign is_empty = false -%}
+                    {%- endfor -%}
+            {%- endcase -%}
+
+            {%- if is_empty -%}
+                {%- for i in (1..3) -%}
+                    <div class="col-lg-4">
+                        <article class="card">
+                            {%- capture placeholder -%}{% cycle 'lifestyle-1', 'lifestyle-2' %}{%- endcapture -%}
+                            <div class="article-full-content">
+                                <div class="ws--feature-image-wrapper">
+                                    <div class="ws--feature-image ws--image-contrast ws--feature-image-zoom-in">
+                                        {{ placeholder | placeholder_svg_tag: 'ws--placeholder-background-svg ws--placeholder-svg-dark' }}
+                                    </div>
+                                </div>
+                                <div class="card-body article-body">
+                                    {%- if section.settings.show_category -%}
+                                        <p class="ws--heading ws--h6 article-category">{{ 'home_page.onboarding.article_category' | t }}</p>
+                                    {%- endif -%}
+                                    <a href="#">
+                                        <h2 class="ws--heading ws--h2 article-title">{{ 'home_page.onboarding.article_name' | t }}</h2>
+                                    </a>
+                                    <p class="article-excerpt">{{ 'home_page.onboarding.article_excerpt' | t }}</p>
+                                    <div class="read-more-btn">
+                                        <a href="#" class="ws--link ws--link-underline">{{ 'blog.article.read_more' | t }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                {%- endfor -%}
+            {%- endif -%}
+        </div>
+
+        {%- if section.settings.button_text != blank -%}
+            <div class="article-btn text-center mt-12">
+                <a href="{{ section.settings.button_link }}" class="ws--btn ws--btn-primary">{{ section.settings.button_text | escape }}</a>      
+            </div>
+        {%- endif -%}
+    </div>
+</section>
+
+{% schema %}
+{
+  "name": "Blog posts",
+  "class": "shopify-section--bordered",
+  "max_blocks": 1,
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Sub-heading"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Blog posts"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_category",
+      "label": "Show article category",
+      "info": "The first article's tag is used as the main category.",
+      "default": false
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "View all articles"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "article",
+      "name": "Article",
+      "settings": [
+        {
+          "type": "article",
+          "id": "article_1",
+          "label": "Article 1"
+        },
+        {
+          "type": "article",
+          "id": "article_2",
+          "label": "Article 2"
+        },
+        {
+          "type": "article",
+          "id": "article_3",
+          "label": "Article 3"
+        }
+      ]
+    },
+    {
+      "type": "blog",
+      "name": "Blog",
+      "settings": [
+        {
+          "type": "blog",
+          "id": "blog",
+          "label": "Blog"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "category": "Blog",
+      "name": "Blog posts",
+      "settings": {},
+      "blocks": [
+        {
+          "type": "blog",
+          "settings": {
+            "blog": "news"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

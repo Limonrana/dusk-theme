@@ -1,0 +1,32 @@
+{%- assign collection_card_image = block.settings.image | default: collection.image | default: collection.products.first.featured_image -%}
+
+<a href="{{ block.settings.button_link | default: collection.url }}" {{ block.shopify_attributes }} class="col-lg-4 col-md-4 col-sm-6 col-12">
+    {%- capture mobile_size -%}750x{% if collection_image.height >= 960 %}960{% else %}{{ collection_image.height }}{% endif %}{%- endcapture -%}
+    {%- assign image_crop = block.settings.image_alignment | split: ' ' | last -%}
+    <div class="card ws--collection-card ws--collection-card-item-wrapper-{{ section.settings.image_size }}" {% if collection_card_image %}style="background-image: url({{ collection_card_image | image_url: '1x1' }})"{% endif %}>
+        <div class="ws--collection-card-image-wrapper">
+            <div class="ws--collection-card-image card-img {% if overlay %}ws--image-contrast{% endif %}" 
+                {% if collection_card_image %}style="background-position: {{ block.settings.image_alignment }}" data-src="{{ collection_card_image | image_url: mobile_size, crop: image_crop }}" data-lazy-bg{% endif %}>
+                {%- if collection_card_image == nil -%}
+                    {%- capture image_name -%}lifestyle-{% cycle 'anchor': '1', '2' %}{%- endcapture -%}
+                    {{ image_name | placeholder_svg_tag: 'ws--placeholder-background-svg ws--placeholder-svg-dark' }}
+                {%- endif -%}
+            </div>
+        </div>
+        <div class="ws--collection-card-content ws--collection-card-content-{{ block.settings.content_position | default: 'bottom-left' }}">
+            <div class="ws--section-header">
+            {%- if block.settings.subheading != blank -%}
+                <h3 class="ws--heading ws--h6 mb-3">{{ block.settings.subheading | escape }}</h3>
+            {%- endif -%}
+            <h2 class="ws--heading ws--h1 card-text my-5">{{ block.settings.title | default: collection.title | escape }}</h2>
+            <div class="ws--section-header-btn-wrapper mt-5">
+                {%- if block.settings.button_text != blank -%}
+                    <div class="ws--btn ws--btn-primary">{{ block.settings.button_text | escape }}</div>
+                {%- else -%}
+                    <div class="ws--btn ws--btn-primary">{{ 'collection.general.view_products' | t }}</div>
+                {%- endif -%}
+            </div>
+            </div>
+        </div>
+    </div>
+</a>

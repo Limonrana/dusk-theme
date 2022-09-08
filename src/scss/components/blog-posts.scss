@@ -1,0 +1,18 @@
+article.card {
+  border-radius: 0 !important;
+  .article-full-content {
+    .ws--feature-image-wrapper {
+      display: block !important;
+    }
+    .article-body {
+      padding: 25px 15px 20px 20px;
+      .article-excerpt {
+        font-size: 14px;
+        font-weight: 400;
+        color: #1c1b1b;
+        line-height: 22px;
+        margin: 15px 0px;
+      }
+    }
+  }
+}

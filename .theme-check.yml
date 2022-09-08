@@ -2,3 +2,21 @@ MatchingTranslations:
   enabled: false
 TemplateLength:
   enabled: false
+  ignore:
+    - package.json
+    - webpack.config.js
+    - package-lock.json
+    - mix-manifest.json
+    - snippets/icon.liquid
+LiquidTag:
+  enabled: true
+  min_consecutive_statements: 50
+
+ImgWidthAndHeight:
+  enabled: false
+
+UnusedSnippet:
+  enabled: true
+
+UnusedAssign:
+  enabled: true

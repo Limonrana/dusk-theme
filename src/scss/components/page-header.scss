@@ -1,0 +1,66 @@
+/**
+ * ----------------------------------------------------------------------------
+ * Page header
+ * ----------------------------------------------------------------------------
+ */
+.ws--page-header {
+  position: relative;
+  margin: 35px 0;
+  @include devices(tabletUp) {
+    margin: 50px 0;
+  }
+  &.ws--page-header-with-background {
+    position: relative;
+    display: flex;
+    margin: 0;
+    width: 100%;
+    min-height: 300px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    overflow: hidden;
+    @include devices(tabletUp) {
+      min-height: 450px;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    @include devices(desktop) {
+      min-height: 550px;
+    }
+    @include devices(largewidescreen) {
+      min-height: 650px;
+    }
+    &.ws--page-header-small {
+      min-height: 420px;
+      @include devices(desktop) {
+        min-height: 500px;
+      }
+      @include devices(largewidescreen) {
+        min-height: 600px;
+      }
+    }
+    &.ws--page-header-large {
+      min-height: 480px;
+      @include devices(desktop) {
+        min-height: 620px;
+      }
+      @include devices(largewidescreen) {
+        min-height: 700px;
+      }
+    }
+    .ws--page-header-image-wrapper {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      background-size: cover;
+      background-position: center center;
+      background-attachment: fixed;
+    }
+    .ws--page-section-header {
+      position: relative;
+    }
+  }
+}

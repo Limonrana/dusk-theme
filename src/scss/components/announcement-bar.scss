@@ -1,0 +1,33 @@
+/**
+ * ----------------------------------------------------------------------------
+ * Announcement bar
+ * ----------------------------------------------------------------------------
+ */
+
+.shopify-section--header {
+  z-index: 11;
+  height: fit-content;
+}
+
+.ws--announcement-bar {
+  position: relative;
+  text-align: center;
+  font-size: 1.2 rem;
+  z-index: 1;
+  .ws--announcement-bar-wrapper {
+    padding: 12px 15px;
+  }
+
+  .ws--announcement-bar-content {
+    color: inherit;
+    margin: 0;
+  }
+
+  @include devices(tablet) {
+    font-size: 1.2 rem;
+  }
+
+  @include devices(mobile) {
+    font-size: 1.2 rem;
+  }
+}

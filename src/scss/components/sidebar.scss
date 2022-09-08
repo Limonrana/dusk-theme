@@ -1,0 +1,112 @@
+/**
+ * ----------------------------------------------------------------------------
+ * Sidebar
+ * ----------------------------------------------------------------------------
+ */
+.ws--sidebar-menu {
+  height: 100%;
+  background: #1c1b1b !important;
+  color: #ffffff;
+  .ws--heading,
+  .ws--link-primary:hover {
+    color: #ffffff;
+  }
+  .ws--collapsible,
+  .ws--link-list {
+    border-color: var(--navigation-border-color);
+  }
+  .ws--sidebar-menu-nav {
+    .ws--collapsible {
+      &:first-child {
+        border-top: none;
+      }
+    }
+  }
+  .ws--drawer-main {
+    display: block;
+    content: "";
+    height: 35px;
+    @include devices(laptopUp) {
+      padding-top: 26px;
+      &::after {
+        height: 60px;
+        /* same here, Safari has some issues with adding padding-bottom :( */
+      }
+    }
+  }
+  .ws--sidebar-menu-nav-secondary {
+    margin-top: 28px;
+  }
+  .ws--drawer-content {
+    &::before {
+      position: absolute;
+      content: "";
+      width: 100%;
+      pointer-events: none;
+      z-index: 1;
+      top: 0;
+      height: 25px;
+      background-image: linear-gradient(
+        var(--navigation-background),
+        rgba(var(--navigation-background-rgb), 0.6) 40%,
+        rgba(var(--navigation-background-rgb), 0)
+      );
+    }
+    @include devices(laptopUp) {
+      &::before {
+        height: 40px;
+      }
+    }
+  }
+  .ws--drawer-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 48px;
+    box-shadow: 0 1px var(--navigation-border-color) inset;
+    color: var(--navigation-text-color-light);
+    &::before {
+      position: absolute;
+      content: "";
+      width: 100%;
+      pointer-events: none;
+      z-index: 1;
+      bottom: 100%;
+      height: 30px;
+      background-image: linear-gradient(
+        rgba(var(--navigation-background-rgb), 0),
+        rgba(var(--navigation-background-rgb), 0.6) 40%,
+        var(--navigation-background)
+      );
+    }
+    @include devices(laptopUp) {
+      &::before {
+        height: 70px;
+      }
+    }
+  }
+  .ws--sidebar-menu-currency-selector,
+  .ws--sidebar-menu-social {
+    flex: 1 0 auto;
+    margin: 0;
+    padding: 6px 0;
+  }
+  .ws--sidebar-menu-currency-selector {
+    width: 120px;
+    flex: none;
+    text-align: center;
+    font-size: calc(
+      var(--base-text-font-size) - (var(--default-text-font-size) - 11px)
+    );
+    .ws--select {
+      display: inline-block;
+    }
+    + .ws--sidebar-menu-social {
+      border-left: 1px solid var(--navigation-border-color);
+    }
+  }
+  .ws--sidebar-menu-social {
+    @include sidebar-menu-soical-grid;
+  }
+}

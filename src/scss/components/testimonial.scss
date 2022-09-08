@@ -1,0 +1,47 @@
+.testimonial-section {
+  padding: 0;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+  .carousel {
+    .carousel-inner {
+      min-height: 120px;
+      .carousel-item {
+        .testimonial-content {
+          .testimonial-slider {
+            width: 550px;
+            margin: 0 auto;
+            margin-top: 20px;
+            p {
+              font-size: 20px;
+              font-weight: 400;
+              color: inherit;
+              line-height: 33px;
+            }
+          }
+          .testimonial-logo {
+            width: 15%;
+            margin: 25px auto 30px;
+          }
+        }
+      }
+    }
+    .carousel-indicators {
+      position: inherit;
+      justify-content: center;
+      margin-top: 30px;
+      .dot {
+        border: 2px solid;
+        border-radius: 50%;
+        cursor: pointer;
+        width: 10px;
+        height: 10px;
+        margin: 0 7px;
+        &.active {
+          border: inherit !important;
+          background-color: inherit !important;
+        }
+      }
+    }
+  }
+}

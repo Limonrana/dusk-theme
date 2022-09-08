@@ -1,0 +1,77 @@
+{%- if section.settings.show_section -%}
+    <script src="{{ 'recent-view.js' | asset_url }}" defer="defer"></script>
+    {%- capture flickity_options -%}
+        { "prevNextButtons": true, "pageDots": false, "wrapAround": false, "contain": true, "cellAlign": "center", "watchCSS": false, "dragThreshold": 8, "groupCells": true, "arrowShape": {"x0": 20, "x1": 60, "y1": 40, "x2": 60, "y2": 35, "x3": 25} }
+    {%- endcapture -%}
+
+    {%- capture section_settings -%}
+        {
+        "productId": {% if template.name == 'product' %}{{ product.id }}{% else %}null{% endif %}
+        }
+    {%- endcapture -%}
+    <recent-view-products class="ws--container-lg ws--hidden" data-section-id="{{ section.id }}" data-section-settings='{{ section_settings }}'>
+        {%- if section.settings.title != blank -%}
+        <div class="ws--page-header">
+            <h6 class="ws--heading ws--h3 mb-5 text-center text-gray-400">
+                {{ section.settings.title | escape }}
+            </h6>
+        </div>
+        {%- endif -%}
+
+        {%- if template.name == 'search' -%}
+            <div class="ws--carousel ws--product-list-carousel" data-flickity='{{ flickity_options }}' data-carousel="product-carousel-grid">
+                {%- for product in search.results -%}
+                    <div class="col ws--carousel-cell mb-12">
+                        {%- render 'card-product', 
+                            card_product: product,
+                            show_product_info: section.settings.show_product_info,
+                            show_vendor: section.settings.show_vendor,
+                            show_color_swatch: section.settings.show_color_swatch,
+                            show_labels: true
+                        -%}
+                    </div>
+                {%- endfor -%}
+            </div>
+        {%- endif -%}
+    </recent-view-products>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Recently viewed products",
+  "class": "shopify-section--bordered",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_section",
+      "label": "Show section",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Recently viewed"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_info",
+      "label": "Show product info",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_color_swatch",
+      "label": "Show color swatch",
+      "info": "Some colors appear white?",
+      "default": false
+    }
+  ]
+}
+{% endschema %}

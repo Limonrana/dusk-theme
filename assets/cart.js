@@ -1,3 +1,6 @@
+/*=================================
+ * Cart Remove Button Element Class
+ =================================*/
 class CartRemoveButton extends HTMLElement {
   constructor() {
     super();
@@ -11,19 +14,19 @@ class CartRemoveButton extends HTMLElement {
 
 customElements.define('cart-remove-button', CartRemoveButton);
 
+
+/*=================================
+ * Cart Items Element Class
+ =================================*/
 class CartItems extends HTMLElement {
   constructor() {
     super();
-
-    this.lineItemStatusElement = document.getElementById('shopping-cart-line-item-status') || document.getElementById('CartDrawer-LineItemStatus');
-
     this.currentItemCount = Array.from(this.querySelectorAll('[name="updates[]"]'))
       .reduce((total, quantityInput) => total + parseInt(quantityInput.value), 0);
 
     this.debouncedOnChange = debounce((event) => {
       this.onChange(event);
     }, 300);
-
     this.addEventListener('change', this.debouncedOnChange.bind(this));
   }
 
@@ -66,7 +69,7 @@ class CartItems extends HTMLElement {
       sections_url: window.location.pathname
     });
 
-    fetch(`${routes.cart_change_url}`, { ...fetchConfig(), ...{ body } })
+    fetch(`${routes.cart_change_url}`, {...fetchConfig(), ...{ body }})
       .then((response) => {
         return response.text();
       })
@@ -87,7 +90,7 @@ class CartItems extends HTMLElement {
         }));
 
         this.updateLiveRegions(line, parsedState.item_count);
-        const lineItem = document.getElementById(`CartItem-${line}`) || document.getElementById(`CartDrawer-Item-${line}`);
+        const lineItem =  document.getElementById(`CartItem-${line}`) || document.getElementById(`CartDrawer-Item-${line}`);
         if (lineItem && lineItem.querySelector(`[name="${name}"]`)) {
           cartDrawerWrapper ? trapFocus(cartDrawerWrapper, lineItem.querySelector(`[name="${name}"]`)) : lineItem.querySelector(`[name="${name}"]`).focus();
         } else if (parsedState.item_count === 0 && cartDrawerWrapper) {
@@ -96,7 +99,8 @@ class CartItems extends HTMLElement {
           trapFocus(cartDrawerWrapper, document.querySelector('.cart-item__name'))
         }
         this.disableLoading();
-      }).catch(() => {
+      }).catch((err) => {
+        console.log(err);
         this.querySelectorAll('.loading-overlay').forEach((overlay) => overlay.classList.add('hidden'));
         const errors = document.getElementById('cart-errors') || document.getElementById('CartDrawer-CartErrors');
         errors.textContent = window.cartStrings.error;
@@ -108,6 +112,7 @@ class CartItems extends HTMLElement {
     if (this.currentItemCount === itemCount) {
       const lineItemError = document.getElementById(`Line-item-error-${line}`) || document.getElementById(`CartDrawer-LineItemError-${line}`);
       const quantityElement = document.getElementById(`Quantity-${line}`) || document.getElementById(`Drawer-quantity-${line}`);
+
       lineItemError
         .querySelector('.cart-item__error-text')
         .innerHTML = window.cartStrings.quantityError.replace(
@@ -140,10 +145,8 @@ class CartItems extends HTMLElement {
     const cartItemElements = this.querySelectorAll(`#CartItem-${line} .loading-overlay`);
     const cartDrawerItemElements = this.querySelectorAll(`#CartDrawer-Item-${line} .loading-overlay`);
 
-    [...cartItemElements, ...cartDrawerItemElements].forEach((overlay) => overlay.classList.remove('hidden'));
-
+    [...cartItemElements, ...cartDrawerItemElements].forEach((overlay) => overlay.classList.remove('ws--hidden'));
     document.activeElement.blur();
-    this.lineItemStatusElement.setAttribute('aria-hidden', false);
   }
 
   disableLoading() {
@@ -154,14 +157,17 @@ class CartItems extends HTMLElement {
 
 customElements.define('cart-items', CartItems);
 
-if (!customElements.get('cart-note')) {
+/*=================================
+ * Cart Note Customer Element Class
+ =================================*/
+ if (!customElements.get('cart-note')) {
   customElements.define('cart-note', class CartNote extends HTMLElement {
     constructor() {
       super();
 
       this.addEventListener('change', debounce((event) => {
         const body = JSON.stringify({ note: event.target.value });
-        fetch(`${routes.cart_update_url}`, { ...fetchConfig(), ...{ body } });
+        fetch(`${routes.cart_update_url}`, {...fetchConfig(), ...{ body }});
       }, 300))
     }
   });

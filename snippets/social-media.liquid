@@ -1,0 +1,125 @@
+{%- assign social_media_count = 0 -%}
+
+{%- capture social_media -%}
+  {%- if settings.social_facebook_link != blank -%}
+    <li class="ws--horizontal-list-item">
+      <a href="{{ settings.social_facebook_link | replace_first: 'https://', '' | replace_first: 'http://', '' | prepend: 'https://' }}" class="ws--link ws--link-secondary" target="_blank" rel="noopener" aria-label="Facebook">
+        <span class="ws--icon-wrapper-clickable">{%- render 'icon' with 'facebook' -%}</span>
+      </a>
+    </li>
+
+    {% assign social_media_count = social_media_count | plus: 1 %}
+  {%- endif -%}
+
+  {%- if settings.social_twitter_link != blank -%}
+    <li class="ws--horizontal-list-item">
+      <a href="{{ settings.social_twitter_link | replace_first: 'https://', '' | replace_first: 'http://', '' | prepend: 'https://' }}" class="ws--link ws--link-secondary" target="_blank" rel="noopener" aria-label="Twitter">
+        <span class="ws--icon-wrapper-clickable">{%- render 'icon' with 'twitter' -%}</span>
+      </a>
+    </li>
+
+    {% assign social_media_count = social_media_count | plus: 1 %}
+  {%- endif -%}
+
+  {%- if settings.social_instagram_link != blank -%}
+    <li class="ws--horizontal-list-item">
+      <a href="{{ settings.social_instagram_link | replace_first: 'https://', '' | replace_first: 'http://', '' | prepend: 'https://' }}" class="ws--link ws--link-secondary" target="_blank" rel="noopener" aria-label="Instagram">
+        <span class="ws--icon-wrapper-clickable">{%- render 'icon' with 'instagram' -%}</span>
+      </a>
+    </li>
+
+    {% assign social_media_count = social_media_count | plus: 1 %}
+  {%- endif -%}
+
+  {%- if settings.social_pinterest_link != blank -%}
+    <li class="ws--horizontal-list-item">
+      <a href="{{ settings.social_pinterest_link | replace_first: 'https://', '' | replace_first: 'http://', '' | prepend: 'https://' }}" class="ws--link ws--link-secondary" target="_blank" rel="noopener" aria-label="Pinterest">
+        <span class="ws--icon-wrapper-clickable">{%- render 'icon' with 'pinterest' -%}</span>
+      </a>
+    </li>
+
+    {% assign social_media_count = social_media_count | plus: 1 %}
+  {%- endif -%}
+
+  {%- if settings.social_youtube_link != blank -%}
+    <li class="ws--horizontal-list-item">
+      <a href="{{ settings.social_youtube_link | replace_first: 'https://', '' | replace_first: 'http://', '' | prepend: 'https://' }}" class="ws--link ws--link-secondary" target="_blank" rel="noopener" aria-label="YouTube">
+        <span class="ws--icon-wrapper-clickable">{%- render 'icon' with 'youtube' -%}</span>
+      </a>
+    </li>
+
+    {% assign social_media_count = social_media_count | plus: 1 %}
+  {%- endif -%}
+
+  {%- if settings.social_tiktok_link != blank -%}
+    <li class="ws--horizontal-list-item">
+      <a href="{{ settings.social_tiktok_link | replace_first: 'https://', '' | replace_first: 'http://', '' | prepend: 'https://' }}" class="ws--link ws--link-secondary" target="_blank" rel="noopener" aria-label="TikTok">
+        <span class="ws--icon-wrapper-clickable">{%- render 'icon' with 'tiktok' -%}</span>
+      </a>
+    </li>
+
+    {% assign social_media_count = social_media_count | plus: 1 %}
+  {%- endif -%}
+
+  {%- if settings.social_vimeo_link != blank -%}
+    <li class="ws--horizontal-list-item">
+      <a href="{{ settings.social_vimeo_link | replace_first: 'https://', '' | replace_first: 'http://', '' | prepend: 'https://' }}" class="ws--link ws--link-secondary" target="_blank" rel="noopener" aria-label="Vimeo">
+        <span class="ws--icon-wrapper-clickable">{%- render 'icon' with 'vimeo' -%}</span>
+      </a>
+    </li>
+
+    {% assign social_media_count = social_media_count | plus: 1 %}
+  {%- endif -%}
+
+  {%- if settings.social_linkedin_link != blank -%}
+    <li class="ws--horizontal-list-item">
+      <a href="{{ settings.social_linkedin_link | replace_first: 'https://', '' | replace_first: 'http://', '' | prepend: 'https://' }}" class="ws--link ws--link-secondary" target="_blank" rel="noopener" aria-label="ws--linkedIn">
+        <span class="ws--icon-wrapper-clickable">{%- render 'icon' with 'linkedin' -%}</span>
+      </a>
+    </li>
+
+    {% assign social_media_count = social_media_count | plus: 1 %}
+  {%- endif -%}
+
+  {%- if settings.social_snapchat_link != blank -%}
+    <li class="ws--horizontal-list-item">
+      <a href="{{ settings.social_snapchat_link | replace_first: 'https://', '' | replace_first: 'http://', '' | prepend: 'https://' }}" class="ws--link ws--link-secondary" target="_blank" rel="noopener" aria-label="SnapChat">
+        <span class="ws--icon-wrapper-clickable">{%- render 'icon' with 'snapchat' -%}</span>
+      </a>
+    </li>
+
+    {% assign social_media_count = social_media_count | plus: 1 %}
+  {%- endif -%}
+
+  {%- if settings.social_tumblr_link != blank -%}
+    <li class="ws--horizontal-list-item">
+      <a href="{{ settings.social_tumblr_link | replace_first: 'https://', '' | replace_first: 'http://', '' | prepend: 'https://' }}" class="ws--link ws--link-secondary" target="_blank" rel="noopener" aria-label="Tumblr">
+        <span class="ws--icon-wrapper-clickable">{%- render 'icon' with 'tumblr' -%}</span>
+      </a>
+    </li>
+
+    {% assign social_media_count = social_media_count | plus: 1 %}
+  {%- endif -%}
+
+  {%- if settings.social_fancy_link != blank -%}
+    <li class="ws--horizontal-list-item">
+      <a href="{{ settings.social_fancy_link | replace_first: 'https://', '' | replace_first: 'http://', '' | prepend: 'https://' }}" class="ws--link ws--link-secondary" target="_blank" rel="noopener" aria-label="Fancy">
+        <span class="ws--icon-wrapper-clickable">{%- render 'icon' with 'fancy' -%}</span>
+      </a>
+    </li>
+
+    {% assign social_media_count = social_media_count | plus: 1 %}
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- assign spacing_to_use = spacing -%}
+
+{%- if spacing == 'large' and social_media_count > 6 -%}
+  {%- assign spacing_to_use = 'small' -%}
+{%- endif -%}
+
+{%- if social_media_count > 0 -%}
+  <ul class="ws--horizontal-list">
+    {{ social_media }}
+  </ul>
+{%- endif -%}

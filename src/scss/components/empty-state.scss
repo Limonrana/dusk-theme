@@ -1,0 +1,31 @@
+/**
+ * ----------------------------------------------------------------------------
+ * Empty State Styles
+ * ----------------------------------------------------------------------------
+ */
+
+.ws--segment {
+  .ws--segment-title {
+    margin-bottom: 24px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #cfcfcf;
+    color: #6a6a6a;
+  }
+}
+.ws--empty-state {
+  @include devices(tabletUp) {
+    margin: 200px 0;
+  }
+  @include devices(desktop) {
+    margin: 250px 0;
+  }
+  margin: 140px 0;
+  text-align: center;
+  .ws--empty-state-title {
+    margin-bottom: 15px !important;
+  }
+  .ws--empty-state-action {
+    display: inline-block;
+    margin-top: 20px;
+  }
+}

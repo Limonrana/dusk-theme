@@ -1,0 +1,311 @@
+{%- if section.settings.layout_mode == 'carousel' -%}
+    {%- capture flickity_options -%}
+        { "prevNextButtons": true, "pageDots": false, "wrapAround": false, "contain": true, "cellAlign": "center", "watchCSS": false, "dragThreshold": 8, "groupCells": true, "arrowShape": {"x0": 20, "x1": 60, "y1": 40, "x2": 60, "y2": 35, "x3": 25} }
+    {%- endcapture -%}
+{%- endif -%}
+
+<section class="py-12" data-section-id="{{ section.id }}" data-section-type="featured-collections">
+    <div class="ws--container">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <!-- Preheading -->
+                {%- if section.settings.title != blank -%}
+                    <h6 class="ws--heading ws--h6 mb-5 text-center text-gray-400">
+                        {{ section.settings.title | escape }}
+                    </h6>
+                {%- endif -%}
+                <!-- /Preheading -->
+                <!-- Heading -->
+                {%- if section.blocks.size > 1 -%}
+                    <ul class="nav justify-content-center gap-5 mt-7 mb-10" id="tab-{{ section.id }}" role="tablist">
+                        {%- for block in section.blocks -%}
+                            {%- assign collection = collections[block.settings.collection] -%}
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link ws--nav-tab-link {% if forloop.first %}active{% endif %}" id="tab-{{ block.id }}" data-bs-toggle="tab" data-bs-target="#block-{{ block.id }}" type="button" role="tab" aria-controls="block-{{ block.id }}" aria-selected="true">
+                                    <h2 class="ws--heading ws--h2 text-center">
+                                        {%- if collection != empty -%}
+                                            {{- block.settings.title | default: collection.title -}}
+                                        {%- else -%}
+                                            {{- 'home_page.onboarding.collection_title' | t -}}
+                                        {%- endif -%}
+                                    </h2>
+                                </button>
+                            </li>
+                        {%- endfor -%}
+                    </ul>
+                {%- else -%}
+                    {%- assign collection = collections[section.blocks.first.settings.collection] -%}
+
+                    {%- if collection != empty -%}
+                        <h2 class="ws--heading ws--h2 mb-10 text-center">
+                            {{- block.settings.title | default: collection.title -}}
+                        </h2>
+                    {%- else -%}
+                        <h2 class="ws--heading ws--h2 mb-10 text-center">
+                            {{- 'home_page.onboarding.collection_title' | t -}}
+                        </h2>
+                    {%- endif -%}
+                {%- endif -%}
+                <!-- /Heading -->
+            </div>
+        </div>
+        <div class="tab-content" id="tab-content-{{ section.id }}">
+            {% comment %} Calculate column for desktop and mobile {% endcomment %}
+            {%- if section.settings.grid_mobile_items_per_row == 2 -%}
+                {%- assign col_mobile = 'col-6' -%}
+            {%- else -%}
+                {%- assign col_mobile = 'col-6' -%}
+            {%- endif -%}
+            {% comment %} desktop column capture {% endcomment %}
+            {%- if section.settings.grid_desktop_items_per_row == 2 -%}
+                {%- assign col_desktop = 'col-md-6' -%}
+            {%- elsif section.settings.grid_desktop_items_per_row == 3 -%}
+                {%- assign col_desktop = 'col-md-4' -%}
+            {%- else -%}
+                {%- assign col_desktop = 'col-md-3' -%}
+            {%- endif -%}
+            {% comment %} /Calculate column for desktop and mobile {% endcomment %}
+
+            {%- for block in section.blocks -%}
+                {%- assign collection = collections[block.settings.collection] -%}
+                <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" id="block-{{ block.id }}" role="tabpanel" aria-labelledby="tab-{{ block.id }}">
+                    {%- if collection != empty -%}
+                        {%- if section.settings.layout_mode == 'grid' -%}
+                            <div class="row pt-4 mx-n2">
+                                {%- for product in collection.products limit: block.settings.grid_items_count -%}
+                                    <div class="{{ col_desktop }} {{ col_mobile }} mb-12">
+                                        <div class="card">
+                                            <a href="{{ product.url | within: collection }}">
+                                                <img 
+                                                    src="{{ product.featured_media.preview_image | image_url }}"
+                                                    data-src="{{ product.featured_media.preview_image | image_url }}"
+                                                    alt="{{ product.title }}" loading="lazy" class="card-img-top" data-lazy
+                                                >
+                                            </a>
+                                            <div class="card-body text-center py-6">
+                                                {%- if section.settings.show_vendor -%}
+                                                    <p class="ws--heading ws--h6 card-text ws--text">
+                                                        {{ product.vendor }}
+                                                    </p>
+                                                {%- endif -%}
+                                                <a href="{{ product.url | within: collection }}" class="ws--heading ws--h4 card-title">
+                                                    {{ product.title }}
+                                                </a>
+                                                <p class="ws--heading ws--h6 card-text ws--text">
+                                                    {{ product.price | money_without_trailing_zeros }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {%- endfor -%}
+                            </div>
+                        {%- else -%}
+                            <div class="row pt-4 px-10 mx-n2">
+                                <div class="ws--carousel ws--product-list-carousel" data-flickity='{{ flickity_options }}' data-carousel="product-grid">
+                                    {%- for product in collection.products limit: block.settings.grid_items_count -%}
+                                        <div class="col ws--carousel-cell mb-12">
+                                            <div class="card product-grid-card">
+                                                <a href="{{ product.url | within: collection }}">
+                                                    <img 
+                                                        src="{{ product.featured_media.preview_image | image_url }}"
+                                                        data-src="{{ product.featured_media.preview_image | image_url }}"
+                                                        alt="{{ product.title }}" loading="lazy" class="card-img-top" data-lazy
+                                                    >
+                                                </a>
+                                                <div class="card-body text-center py-6">
+                                                    {%- if section.settings.show_vendor -%}
+                                                        <p class="ws--heading ws--h6 card-text ws--text">
+                                                            {{ product.vendor }}
+                                                        </p>
+                                                    {%- endif -%}
+                                                    <a href="{{ product.url | within: collection }}" class="ws--heading ws--h4 card-title">
+                                                        {{ product.title }}
+                                                    </a>
+                                                    <p class="ws--heading ws--h6 card-text ws--text">
+                                                        {{ product.price | money_without_trailing_zeros }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {%- endfor -%}
+                                </div>
+                            </div>
+                        {%- endif -%}
+                    {%- else -%}
+                        {%- comment -%}If collection is not set, we use placeholder content for all three layout mode{%- endcomment -%}
+                        
+                        {%- capture products_placeholder -%}
+                            {%- for i in (1..block.settings.grid_items_count) -%}
+                                <div class="{% if section.settings.layout_mode == 'grid' %}{{ col_desktop }} {{ col_mobile }}{% else %}col ws--carousel-cell{% endif %} mb-12">
+                                    <div class="card">
+                                        <div class="card-img-top">
+                                            {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+                                            {{ 'product-' | append: current | placeholder_svg_tag: 'ws--placeholder-svg ws--placeholder-svg-dark' }}
+                                        </div>
+                                        {%- if section.settings.show_product_info -%}
+                                            <div class="card-body text-center py-6">
+                                                {%- if section.settings.show_vendor -%}
+                                                    <p class="ws--heading ws--h6 card-text ws--text">
+                                                        {{ 'home_page.onboarding.vendor_title' | t }}
+                                                    </p>
+                                                {%- endif -%}
+                                                <h5 class="ws--heading ws--h4 card-title">
+                                                    {{ 'home_page.onboarding.product_title' | t }}
+                                                </h5>
+                                                <p class="ws--heading ws--h6 card-text ws--text">
+                                                    {{ 3000 | money_without_trailing_zeros }}
+                                                </p>
+                                            </div>
+                                        {%- endif -%}
+                                    </div>
+                                </div>
+                            {%- endfor -%}
+                        {%- endcapture -%}
+
+                        <div class="row pt-4 mx-n2">
+                            {%- if section.settings.layout_mode == 'grid' -%}
+                                  {{ products_placeholder }}
+                            {%- else -%}
+                                <div class="ws--carousel ws--product-list-carousel" data-flickity='{{ flickity_options }}' data-carousel="product-grid">
+                                  {{ products_placeholder }}
+                                </div>
+                            {%- endif -%}
+                        </div>
+                    {%- endif -%}
+                    <div class="row justify-content-center">
+                        <div class="col-4 text-center">
+                            <a href="{{ collection.url }}" class="ws--btn ws--btn-primary">{{ block.settings.button_text | escape }}</a>
+                        </div>
+                    </div>
+                </div>
+            {%- endfor -%}
+        </div>
+    </div>
+</section>
+  
+{% schema %}
+{
+  "name": "Featured collections",
+  "class": "shopify-section--bordered",
+  "max_blocks": 2,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Sub-heading",
+      "default": "Featured collection"
+    },
+    {
+      "type": "select",
+      "id": "layout_mode",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "grid",
+          "label": "Grid"
+        },
+        {
+          "value": "carousel",
+          "label": "Carousel"
+        }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_info",
+      "label": "Show product info",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_color_swatch",
+      "label": "Show color swatch",
+      "info": "Some colors appear white? Try disabling this option.",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Grid",
+      "info": "Those settings apply only if the layout mode is set to grid."
+    },
+    {
+      "type": "select",
+      "id": "grid_mobile_items_per_row",
+      "label": "Products per row (mobile)",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "range",
+      "min": 2,
+      "max": 4,
+      "id": "grid_desktop_items_per_row",
+      "label": "Products per row (desktop)",
+      "default": 4
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "info": "If none is set, collection title is used."
+        },
+        {
+          "type": "range",
+          "id": "grid_items_count",
+          "min": 2,
+          "max": 50,
+          "step": 1,
+          "label": "Products to show",
+          "default": 8
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button text",
+          "default": "View all products"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "category": "Collection",
+      "name": "Featured collections",
+      "settings": {
+      },
+      "blocks": [
+        {
+          "type": "collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

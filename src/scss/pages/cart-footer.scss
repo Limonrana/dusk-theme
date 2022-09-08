@@ -1,0 +1,32 @@
+/**
+ * ----------------------------------------------------------------------------
+ * CART FOOTER SECTION CSS
+ * ----------------------------------------------------------------------------
+ */
+.ws--cart-footer {
+  padding: 4rem 0;
+  @include devices(tabletUp) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 0;
+  }
+  > * {
+    @include devices(tabletUp) {
+      width: 35rem;
+    }
+  }
+  .ws--cart-note {
+    .ws--input-item-label {
+      margin-bottom: 10px !important;
+    }
+  }
+  .ws--cart-blocks {
+    text-align: end;
+  }
+}
+.is-empty {
+  .ws--cart-footer {
+    display: none;
+  }
+}

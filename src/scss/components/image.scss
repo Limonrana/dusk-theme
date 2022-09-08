@@ -1,0 +1,237 @@
+/**
+ * ----------------------------------------------------------------------------
+ * Image overlay
+ * ----------------------------------------------------------------------------
+ */
+
+.ws--image-contrast {
+  position: relative;
+  &::after {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-image: linear-gradient(
+      to top,
+      rgba(4, 4, 4, 0.65),
+      rgba(54, 54, 54, 0.2)
+    );
+  }
+  > * {
+    z-index: 1;
+  }
+}
+
+/**
+   * ----------------------------------------------------------------------------
+   * Image lazy loader (integrates with lazy sizes)
+   * ----------------------------------------------------------------------------
+   */
+
+@-webkit-keyframes lazyLoader {
+  0%,
+  100% {
+    transform: translateX(-50%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes lazyLoader {
+  0%,
+  100% {
+    transform: translateX(-50%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+}
+
+.Image--fadeIn {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.Image--lazyLoaded.Image--fadeIn {
+  opacity: 1;
+}
+
+.features--show-image-zooming .Image--zoomOut {
+  transform: scale(1.1);
+  opacity: 0;
+  transition: transform 0.8s cubic-bezier(0.215, 0.61, 0.355, 1),
+    opacity 0.8s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.features--show-image-zooming .Image--lazyLoaded.Image--zoomOut {
+  opacity: 1;
+  transform: none;
+}
+
+/* If zoom is disabled we apply the same effect than fadeIn */
+body:not(.features--show-image-zooming) .Image--zoomOut {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+body:not(.features--show-image-zooming) .Image--lazyLoaded.Image--zoomOut {
+  opacity: 1;
+}
+
+.Image--slideRight,
+.Image--slideLeft {
+  transform: translateX(25px);
+  opacity: 0;
+  transition: transform 0.8s cubic-bezier(0.215, 0.61, 0.355, 1),
+    opacity 0.8s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.Image--slideLeft {
+  transform: translateX(-25px);
+}
+
+.Image--lazyLoaded.Image--slideRight,
+.Image--lazyLoaded.Image--slideLeft {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.Image__Loader {
+  position: absolute;
+  display: block;
+  height: 2px;
+  width: 50px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  top: 0;
+  opacity: 0;
+  visibility: hidden;
+  margin: auto;
+  pointer-events: none;
+  background-color: var(--border-color);
+  z-index: -1;
+  transition: all 0.2s ease-in-out;
+  overflow: hidden;
+}
+
+.Image__Loader::after {
+  position: absolute;
+  content: "";
+  bottom: 0;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 200%;
+  background-color: var(--heading-color);
+}
+
+.Image--lazyLoading + .Image__Loader {
+  opacity: 1;
+  visibility: visible;
+  z-index: 1;
+}
+
+.Image--lazyLoading + .Image__Loader::after {
+  -webkit-animation: lazyLoader 3s infinite;
+  animation: lazyLoader 3s infinite;
+  -webkit-animation-timing-function: cubic-bezier(0.43, 0.43, 0.25, 0.99);
+  animation-timing-function: cubic-bezier(0.43, 0.43, 0.25, 0.99);
+}
+
+/**
+   * ----------------------------------------------------------------------------
+   * Aspect ratio
+   * ----------------------------------------------------------------------------
+   */
+
+.AspectRatio {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.AspectRatio::before {
+  content: "";
+  display: block;
+}
+
+.AspectRatio > img {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.AspectRatio--withFallback > img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.no-js .AspectRatio > img {
+  display: none !important;
+}
+
+@supports (--css: variables) {
+  /* For dynamic one, we use CSS variables, which makes it only compatible for newer browsers */
+  .AspectRatio--withFallback {
+    padding-bottom: 0 !important; /* For older browsers we use the padding-bottom trick, so make sure to remove it here */
+  }
+
+  .AspectRatio::before {
+    padding-bottom: calc(100% / (var(--aspect-ratio)));
+  }
+
+  .AspectRatio > img,
+  .no-js .AspectRatio > noscript img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.AspectRatio--square::before {
+  padding-bottom: 100%;
+}
+
+.AspectRatio--short::before {
+  padding-bottom: 75%;
+}
+
+.AspectRatio--tall::before {
+  padding-bottom: 150%;
+}
+
+.AspectRatio--square > img,
+.AspectRatio--short > img,
+.AspectRatio--tall > img {
+  position: absolute;
+  width: auto;
+  height: auto;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+@supports ((-o-object-fit: contain) or (object-fit: contain)) {
+  .AspectRatio--square > img,
+  .AspectRatio--short > img,
+  .AspectRatio--tall > img {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: contain;
+    object-fit: contain;
+  }
+}
+
+.Image--lazyLoad[data-sizes="auto"] {
+  width: 100%; /* this is needed to help LazySizes calculate the correct size */
+}

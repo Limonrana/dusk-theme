@@ -1,0 +1,102 @@
+/**
+ * ----------------------------------------------------------------------------
+ * Slideshow
+ * ----------------------------------------------------------------------------
+ */
+.shopify-section--slideshow {
+  position: relative;
+}
+
+.ws--slideshow-fullscreen {
+  max-height: 100vh;
+}
+@supports (--css: variables) {
+  .ws--slideshow-fullscreen {
+    height: calc(var(--window-height) - (var(--header-height) * 0) - 0px);
+    height: calc(
+      var(--window-height) -
+        (var(--header-height) * var(--header-is-not-transparent, 0)) -
+        var(--announcement-bar-height, 0px)
+    );
+    max-height: 100vh;
+  }
+}
+.ws--slideshow-fullscreen .ws--slideshow-image {
+  display: block;
+  height: 100%;
+  width: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  -o-object-position: center;
+  object-position: center;
+  font-family: "object-fit: cover; object-position: center;";
+}
+.ws--slideshow-fullscreen .ws--slideshow-carousel-with-scroll-btn {
+  max-height: calc(100% - 35px);
+  margin-bottom: 0;
+}
+.ws--slideshow-content {
+  position: absolute;
+  padding: 0 24px;
+  width: 100%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.ws--slideshow-content-middle-left,
+.ws--slideshow-content-bottom-left {
+  text-align: left;
+}
+.ws--slideshow-content-middle-left .ws--button-group,
+.ws--slideshow-content-bottom-left .ws--button-group {
+  justify-content: flex-start !important;
+}
+
+.ws--slideshow-content-middle-right,
+.ws--slideshow-content-bottom-right {
+  text-align: right;
+}
+.ws--slideshow-content-middle-right .ws--button-group,
+.ws--slideshow-content-bottom-right .ws--button-group {
+  justify-content: flex-end !important;
+}
+
+.ws--slideshow-content-bottom-left,
+.ws--slideshow-content-bottom-center,
+.ws--slideshow-content-bottom-right {
+  top: auto;
+  bottom: 70px;
+  left: 0;
+  transform: none;
+}
+
+.ws--slideshow-scroll-btn {
+  position: absolute;
+  left: calc(50% - 25px);
+  bottom: -25px;
+}
+
+.ws--slideshow-carousel-with-scroll-btn {
+  margin-bottom: 25px;
+}
+
+.ws--slideshow-fullscreen .ws--slideshow-scroll-btn {
+  bottom: 10px;
+}
+.ws--btn-medium {
+  width: 50px;
+  height: 50px;
+  background-color: #fff;
+  box-shadow: 0 2px 10px #36363626;
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+@media screen and (min-width: 1008px) {
+  .ws--slideshow-content {
+    padding: 0 70px;
+  }
+}

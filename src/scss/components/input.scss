@@ -1,0 +1,55 @@
+/*=================================
+ * Input Items CSS Start
+ =================================*/
+.ws--input-item {
+  width: 100%;
+  margin-bottom: 20px;
+  .ws--input-item-label {
+    width: 100%;
+    font-size: 15px;
+    color: #6a6a6a;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+  input {
+    &::placeholder {
+      font-size: 15px;
+      letter-spacing: 1px;
+      color: #6a6a6a;
+    }
+  }
+  .form-control {
+    -webkit-appearance: none;
+    display: block;
+    padding: 12px 14px;
+    font-size: 15px;
+    background-color: transparent;
+    border-radius: 0;
+    border: 1px solid #cfcfcf;
+    width: 100%;
+    line-height: normal;
+    transition: border-color 0.1s ease-in-out;
+    &:focus {
+      background-color: transparent;
+      outline: 0;
+      box-shadow: none;
+      border-color: #1c1b1b;
+    }
+  }
+  &.ws--postion-relative {
+    position: relative;
+    .ws--input-item-absolute {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 13px;
+      color: #6a6a6a;
+      letter-spacing: 1px;
+      text-align: right;
+      width: auto;
+      &:hover {
+        color: #1c1b1b;
+      }
+    }
+  }
+}

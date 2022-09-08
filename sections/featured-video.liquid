@@ -1,0 +1,131 @@
+<section class="ws--section" id="section-{{ section.id }}">
+    <div class="ws--hero-image {% if section.settings.section_size != 'normal' %}ws--hero-image-{{ section.settings.section_size }}{% endif %}" {% if section.settings.image %}style="background: url({{ section.settings.image | image_url: width: 1, height: 1, format: 'jpg' }})"{% endif %}>
+        <div class="ws--hero-image-wrapper">
+            <div class="ws--hero-image-bg ws--image-lazy-load ws--image-zoom-out"
+                 {% if section.settings.image %}data-src="{{ section.settings.image | image_url: width: 1500 }}" data-lazy-bg{% endif %}>
+            </div>
+    
+            <noscript>
+              <div class="ws--hero-image-bg" style="background-image: url({{ section.settings.image | image_url: width: 1000 }})"></div>
+            </noscript>
+    
+            {%- unless section.settings.image != blank -%}
+                <div class="ws--placeholder-background ws--placeholder-svg-dark h-100">
+                  {{ 'lifestyle-1' | placeholder_svg_tag: 'ws--placeholder-background-svg' }}
+                </div>
+            {%- endunless -%}
+        </div>
+        <!-- video content -->
+        <div class="ws--hero-image-content-overlay">
+            <div class="video-heading">
+                {%- if section.settings.subheading != blank -%}
+                    <h3 class="ws--heading ws--h6">{{ section.settings.subheading | escape }}</h3>
+                {%- endif -%}
+                {%- if section.settings.title != blank -%}
+                    <h2 class="ws--heading ws--h1">{{ section.settings.title | escape }}</h2>
+                {%- endif -%}
+            </div>
+            <div class="modal-popup-btn">
+                <button type="button" data-bs-toggle="modal" data-bs-target="#modal-{{ section.id }}">
+                    {% render 'icon' with 'play' %}
+                </button>
+              </div>
+        </div>
+        <!-- video content -->
+    </div>
+</section>
+
+<div class="modal fade" id="modal-{{ section.id }}" tabindex="-1" aria-labelledby="modal{{ section.id }}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+      <div class="modal-content">
+        <div class="modal-body d-flex align-items-center text-center p-0 bg-black">
+            <div class="container px-15">
+                <div class="modal-btn-close">
+                    <button type="button" class="btn-close-svg" data-bs-dismiss="modal" aria-label="Close">
+                        {% render 'icon' with 'close' %}
+                    </button>
+                </div>
+                <div class="modal-video-wrapper">
+                    {% if section.settings.video_url.type == 'youtube' %}
+                        <iframe src="//www.youtube.com/embed/{{ section.settings.video_url.id }}?autoplay=1&showinfo=0&controls=1&rel=0&modestbranding=1" frameborder="0" allowfullscreen></iframe>
+                    {% elsif section.settings.video_url.type == 'vimeo' %}
+                        <iframe src="//player.vimeo.com/video/{{ section.settings.video_url.id }}?autoplay=1&portrait=0&byline=0&color={{ settings.accent_color | remove_first: '#' }}" frameborder="0"></iframe>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<style>
+    #section-{{ section.id }},
+    #section-{{ section.id }} .ws--heading {
+      color: {{ section.settings.text_color }} !important;
+    }
+  </style>
+  
+  {% schema %}
+  {
+    "name": "Featured video",
+    "settings": [
+      {
+        "type": "select",
+        "id": "section_size",
+        "label": "Section size",
+        "options": [
+          {
+            "value": "small",
+            "label": "Small"
+          },
+          {
+            "value": "normal",
+            "label": "Normal"
+          },
+          {
+            "value": "large",
+            "label": "Large"
+          }
+        ],
+        "default": "large"
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text",
+        "default": "#ffffff"
+      },
+      {
+        "type": "text",
+        "id": "subheading",
+        "label": "Sub-heading"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Your video"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image",
+        "info": "1500 x 800px .jpg recommended."
+      },
+      {
+        "type": "video_url",
+        "accept": ["vimeo", "youtube"],
+        "id": "video_url",
+        "label": "Video URL",
+        "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+      }
+    ],
+    "presets": [
+      {
+        "category": "Video",
+        "name": "Featured video",
+        "settings": {}
+      }
+    ]
+  }
+  {% endschema %}

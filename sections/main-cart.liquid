@@ -1,0 +1,214 @@
+<script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
+<div class="ws--container ws--container-narrow">
+    <cart-items class="ws--cart-page {% if cart == empty %} is-empty{% else %} section-{{ section.id }}-padding{% endif %}">
+        <div class="ws--page-header">
+            <div class="ws--section-header text-center">
+              <h1 class="ws--section-header-heading ws--heading ws--h1">{{ 'cart.general.title' | t }}</h1>
+    
+              {%- if settings.cart_show_free_shipping_threshold -%}
+                {%- assign threshold_in_cents = settings.cart_free_shipping_threshold | times: 100 -%}
+    
+                <p class="ws--section-header-description ws--text-light">
+                  {%- if cart.total_price >= threshold_in_cents -%}
+                    {{- 'cart.general.free_shipping' | t -}}
+                  {%- else -%}
+                    {%- capture remaining_amount -%}<span>{{ cart.total_price | minus: threshold_in_cents | abs | money_without_trailing_zeros }}</span>{%- endcapture -%}
+                    {{- 'cart.general.free_shipping_remaining_html' | t: remaining_amount: remaining_amount -}}
+                  {%- endif -%}
+                </p>
+              {%- endif -%}
+            </div>
+        </div>
+        <div class="ws--empty-state">
+            <h1 class="ws--empty-state-title ws--heading ws--h4">{{ 'cart.general.empty' | t }}</h1>
+            {%- if settings.cart_show_free_shipping_threshold -%}
+                {%- assign threshold_in_cents = settings.cart_free_shipping_threshold | times: 100 -%}
+                {%- capture remaining_amount -%}<span>{{ cart.total_price | minus: threshold_in_cents | abs | money_without_trailing_zeros }}</span>{%- endcapture -%}
+        
+                <p class="ws--text-light pb-3">{{- 'cart.general.free_shipping_remaining_html' | t: remaining_amount: remaining_amount -}}</p>
+            {%- endif -%}
+      
+            <a href="{{ routes.all_products_collection_url }}" class="ws--empty-state-action ws--btn ws--btn-primary">{{ 'cart.general.empty_button' | t }}</a>
+        </div>
+        <form action="{{ routes.cart_url }}" class="cart-contents" method="post" id="cart">
+            <div class="cart__items" id="main-cart-items" data-id="{{ section.id }}">
+                <div class="js-contents">
+                    <div class="ws--cart-items-table">
+                        <table class="table">
+                            <thead class="ws--text-light">
+                                <tr>
+                                    <th>{{ 'cart.items.product' | t }}</th>
+                                    <th class="text-center ws--hidden-phone">{{ 'cart.items.quantity' | t }}</th>
+                                    <th class="text-end">{{ 'cart.items.total' | t }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%- for item in cart.items -%}
+                                    <tr id="CartItem-{{ item.index | plus: 1 }}">
+                                        <td>
+                                            <div class="ws--cart-items-content-section">
+                                                {% if item.image %}
+                                                    <div class="ws--cart-items-content-img">
+                                                        <img src="{{ item.image | image_url: width: 300 }}"
+                                                            alt="{{ item.image.alt | escape }}"
+                                                            loading="lazy"
+                                                            width="150"
+                                                            height="{{ 150 | divided_by: item.image.aspect_ratio | ceil }}"
+                                                        >
+                                                    </div>
+                                                {% endif %}
+                                                <div class="ws--cart-items-content">
+                                                    <p class="ws--caption-with-letter-spacing">{{ item.product.vendor }}</p>
+                                                    <h2 class="ws--heading cart-item-title">
+                                                        <a href="{{ item.url }}">{{ item.product.title | escape }}</a>
+                                                    </h2>
+
+                                                    {%- if item.original_price != item.final_price -%}
+                                                        <div class="cart-item-price">
+                                                            <span class="old-price">{{ item.original_price | money }}</span>
+                                                            <span class="original-price">{{ item.final_price | money }}</span>
+                                                        </div>
+                                                    {%- else -%}
+                                                        <div class="cart-item-price">
+                                                            <span class="original-price">{{ item.original_price | money }}</span>
+                                                        </div>
+                                                    {%- endif -%}
+
+                                                    {%- if item.product.has_only_default_variant == false or item.properties.size != 0 or item.selling_plan_allocation != nil -%}
+                                                        <div class="cart-item-meta ws--text-light">
+                                                            {%- if item.product.has_only_default_variant == false -%}
+                                                                <ul class="cart-item-options-list">
+                                                                    {%- for option in item.options_with_values -%}
+                                                                        <li class="cart-item-option">{{ option.name }}: {{ option.value }}</li>
+                                                                    {%- endfor -%}
+                                                                </ul>
+                                                            {% endif %}
+                                                            <ul class="cart-item-property-list">
+                                                                {%- for property in item.properties -%}
+                                                                    {%- assign property_first_char = property.first | slice: 0 -%}
+                                                                    {%- if property.last != blank and property_first_char != '_' -%}
+                                                                        <li class="cart-item-property">
+                                                                            <span>{{ property.first }}: </span>
+                                                                            {%- if property.last contains '/uploads/' -%}
+                                                                                <a href="{{ property.last }}" class="ws--link ws--link-primary" target="_blank">
+                                                                                    {{ property.last | split: '/' | last }}
+                                                                                </a>
+                                                                            {%- else -%}
+                                                                                {{ property.last }}
+                                                                            {%- endif -%}
+                                                                        </li>
+                                                                    {%- endif -%}
+                                                                {%- endfor -%}
+                                                            </ul>
+                                                        </div>
+                                                    {% endif %}
+                                                    {%- if line_item.line_level_discount_allocations != blank -%}
+                                                        <div class="cart-discounts">
+                                                            <ul class="cart-item-discount-list">
+                                                                <li class="cart-item-discount">
+                                                                    {%- render 'icon' with 'sale' -%} {{ discount_allocation.discount_application.title }}: -{{ discount_allocation.amount | money }}
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    {%- endif -%}
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center ws--text-light ws--hidden-phone">
+                                            <quantity-input class="ws--quantity-selector">
+                                                <button type="button" class="ws--quantity-selector-btn ws--link ws--link-primary" name="minus">
+                                                    {%- render 'icon' with 'minus' -%}
+                                                </button>
+                                                <input class="ws--quantity-selector-input"
+                                                    type="number"
+                                                    name="updates[]"
+                                                    value="{{ item.quantity }}"
+                                                    min="0"
+                                                    id="Quantity-{{ item.index | plus: 1 }}"
+                                                    pattern="[0-9]*"
+                                                    data-index="{{ item.index | plus: 1 }}"
+                                                >
+                                                <button type="button" class="ws--quantity-selector-btn ws--link ws--link-primary" name="plus">
+                                                    {%- render 'icon' with 'plus' -%}
+                                                </button>
+                                            </quantity-input>
+                                            <cart-remove-button id="Remove-{{ item.index | plus: 1 }}" data-index="{{ item.index | plus: 1 }}" class="ws--quantity-remove-btn text-center">
+                                                <a href="{{ item.url_to_remove }}" class="cart-item-remove ws--link ws--link-underline">{{ 'cart.items.remove' | t }}</a>
+                                            </cart-remove-button>
+                                            <div class="cart-item__error" id="Line-item-error-{{ item.index | plus: 1 }}" role="alert">
+                                                <small class="cart-item__error-text"></small>
+                                                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-error" viewBox="0 0 13 13">
+                                                <circle cx="6.5" cy="6.50049" r="5.5" stroke="white" stroke-width="2"/>
+                                                <circle cx="6.5" cy="6.5" r="5.5" fill="#EB001B" stroke="#EB001B" stroke-width="0.7"/>
+                                                <path d="M5.87413 3.52832L5.97439 7.57216H7.02713L7.12739 3.52832H5.87413ZM6.50076 9.66091C6.88091 9.66091 7.18169 9.37267 7.18169 9.00504C7.18169 8.63742 6.88091 8.34917 6.50076 8.34917C6.12061 8.34917 5.81982 8.63742 5.81982 9.00504C5.81982 9.37267 6.12061 9.66091 6.50076 9.66091Z" fill="white"/>
+                                                <path d="M5.87413 3.17832H5.51535L5.52424 3.537L5.6245 7.58083L5.63296 7.92216H5.97439H7.02713H7.36856L7.37702 7.58083L7.47728 3.537L7.48617 3.17832H7.12739H5.87413ZM6.50076 10.0109C7.06121 10.0109 7.5317 9.57872 7.5317 9.00504C7.5317 8.43137 7.06121 7.99918 6.50076 7.99918C5.94031 7.99918 5.46982 8.43137 5.46982 9.00504C5.46982 9.57872 5.94031 10.0109 6.50076 10.0109Z" fill="white" stroke="#EB001B" stroke-width="0.7">
+                                                </svg>
+                                            </div>
+                                        </td>
+                                        <td class="text-end ws--text-light">
+                                            <div class="loading-overlay ws--hidden">
+                                                <div class="loading-overlay__spinner">
+                                                <svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                                                    <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                                                </svg>
+                                                </div>
+                                            </div>
+                                            <div class="cart-item-price-wrapper">
+                                                {%- if item.original_line_price != item.final_line_price -%}
+                                                    <div class="cart-item-price">
+                                                        <span class="old-price">{{ item.original_line_price | money }}</span>
+                                                        <span class="original-price">{{ item.final_line_price | money }}</span>
+                                                    </div>
+                                                {%- else -%}
+                                                    <div class="cart-item-price">
+                                                        <span class="original-price">
+                                                            {{ item.original_line_price | money }}
+                                                        </span>
+                                                    </div>
+                                                {%- endif -%}
+                                                {%- if item.variant.available and item.unit_price_measurement -%}
+                                                <div class="unit-price caption">
+                                                    {{ item.variant.unit_price | money }}
+                                                    {%- if item.variant.unit_price_measurement.reference_value != 1 -%}
+                                                    {{- item.variant.unit_price_measurement.reference_value -}}
+                                                    {%- endif -%}
+                                                    {{ item.variant.unit_price_measurement.reference_unit }}
+                                                </div>
+                                                {%- endif -%}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {%- endfor -%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <p class="visually-hidden" id="cart-live-region-text" aria-live="polite" role="status"></p>
+            <p class="visually-hidden" id="cart-icon-bubble" aria-live="polite" role="status"></p>
+            <p class="visually-hidden" id="shopping-cart-line-item-status" aria-live="polite" aria-hidden="true" role="status">loading...</p>
+        </form>
+    </cart-items>
+</div>
+
+{% schema %}
+{
+  "name": "Cart page",
+  "class": "shopify-section--bordered",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_shipping_estimator",
+      "label": "Show shipping rates calculator",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "shipping_estimator_default_country",
+      "label": "Default country to use",
+      "info": "If your customer is logged-in, the country in his default shipping address will be selected.",
+      "default": "United States"
+    }
+  ]
+}
+{% endschema %}

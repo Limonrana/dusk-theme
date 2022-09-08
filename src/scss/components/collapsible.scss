@@ -1,0 +1,138 @@
+/**
+ * ----------------------------------------------------------------------------
+ * Collapsible
+ * ----------------------------------------------------------------------------
+ */
+.ws--collapsible {
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  overflow: hidden;
+  + .ws--collapsible {
+    border-top: none;
+  }
+  .ws--collapsible {
+    margin-left: 16px;
+    border: none;
+    .ws--collapsible-button {
+      padding: 13px 0;
+    }
+  }
+  .ws--collapsible-padded {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .ws--collapsible-button {
+    display: block;
+    position: relative;
+    width: 100%;
+    padding: 20px 0;
+    text-align: left;
+    cursor: pointer;
+    &[aria-expanded="true"] {
+      .ws--collapsible-plus {
+        &::before,
+        &::after {
+          transform: translate(-50%, -50%) rotate(90deg);
+        }
+        &::before {
+          opacity: 0;
+        }
+      }
+      .ws--collapsible-inner {
+        visibility: visible;
+        transition: height 0.35s ease-in-out;
+      }
+    }
+  }
+
+  .ws--collapsible-plus {
+    position: absolute;
+    right: 0;
+    top: calc(50% - (11px / 2));
+    width: 11px;
+    height: 11px;
+    &::before,
+    &::after {
+      position: absolute;
+      content: "";
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-90deg);
+      background-color: currentColor;
+      transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+    }
+    &::before {
+      width: 11px;
+      height: 1px;
+      opacity: 1;
+    }
+    &::after {
+      width: 1px;
+      height: 11px;
+    }
+  }
+  .ws--collapsible-inner {
+    display: block;
+    height: 0;
+    visibility: hidden;
+    transition: height 0.35s ease-in-out, visibility 0s ease-in-out 0.35s;
+    overflow: hidden;
+  }
+  .ws--collapsible-content {
+    padding-bottom: 18px;
+  }
+  .ws--link-list {
+    margin-bottom: 4px;
+  }
+  .ws--link-list-bordered {
+    margin-top: 16px;
+    margin-bottom: 4px;
+  }
+}
+
+@include devices(tabletUp) {
+  /* When this class is applied to a collapsible, it will display as a collapsible on mobile but not on larger screen, where it will
+         automatically appear is auto-expanded */
+  .ws--collapsible-auto-expand {
+    border: none;
+    overflow: visible;
+    margin-bottom: 32px;
+    .ws--collapsible-button {
+      cursor: default;
+      padding-top: 0;
+      padding-bottom: 0;
+      margin-bottom: 16px;
+    }
+    .ws--collapsible-plus {
+      display: none;
+    }
+    .ws--collapsible-inner {
+      height: auto;
+      visibility: visible;
+      overflow: visible;
+    }
+    .ws--collapsible-content {
+      padding-bottom: 0;
+    }
+    .ws--link-list {
+      margin-bottom: 0;
+    }
+  }
+}
+
+@include devices(laptopUp) {
+  .ws--collapsible-padded {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  .ws--collapsible-large {
+    .ws--collapsible-button {
+      padding: 34px 0;
+    }
+    .ws--collapsible-content {
+      padding-bottom: 45px;
+    }
+  }
+}

@@ -1,0 +1,22 @@
+<article class="card" {% if block %}{{ block.shopify_attributes }}{% endif %}>
+    <div class="article-full-content">
+        <a href="{{ article.url }}" class="ws--feature-image-wrapper ws--aspect-ratio" style="background: url({{ article.image | image_url: width: 1, height: 1, format: 'jpg' }});">
+            <img class="ws--feature-image ws--image-contrast ws--feature-image-zoom-in ws--image-lazy-load ws--image-zoom-out" data-src="{{ article.image | image_url: width: 1200 }}" data-lazy loading="lazy" alt="{{ article.image.alt | escape }}" />
+            <noscript>
+                <img class="ws--feature-image" src="{{ article.image | image_url: width: 600 }}" loading="lazy" alt="{{ article.image.alt | escape }}">
+            </noscript>
+        </a>
+        <div class="card-body article-body">
+            {%- if section.settings.show_category -%}
+                <p class="ws--heading ws--h6 article-category">{{ article.tags.first }}</p>
+            {%- endif -%}
+            <a href="{{ article.url }}">
+                <h2 class="ws--heading ws--h2 article-title">{{ article.title }}</h2>
+            </a>
+            <p class="article-excerpt">{{ article.excerpt_or_content | strip_html | truncate: 150 }}</p>
+            <div class="read-more-btn">
+                <a href="{{ article.url }}" class="ws--link ws--link-underline">{{ 'blog.article.read_more' | t }}</a>
+            </div>
+        </div>
+    </div>
+</article>
