@@ -17,8 +17,8 @@
   -ms-scroll-chaining: none;
   overscroll-behavior: contain;
   text-align: left;
-  background: #ffffff;
-  border-bottom: 1px solid #dddddd;
+  background: var(--header-background);
+  border-bottom: 1px solid var(--header-border-color);
   transition: all 0.3s ease-in-out;
   &[aria-hidden="false"] {
     visibility: visible;
@@ -41,9 +41,9 @@
       .ws--mega-menu-title {
         display: block;
         margin-bottom: 20px;
-        color: #6a6a6a;
+        color: var(--header-light-text-color);
         &:hover {
-          color: #6a6a6a;
+          color: var(--header-light-text-color);
         }
       }
       .ws--mega-menu-push {

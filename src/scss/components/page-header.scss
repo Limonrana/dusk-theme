@@ -63,4 +63,15 @@
       position: relative;
     }
   }
+  .ws--section-header {
+    &.ws--section-header-center {
+      text-align: center;
+    }
+    .ws--section-header-heading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+    }
+  }
 }

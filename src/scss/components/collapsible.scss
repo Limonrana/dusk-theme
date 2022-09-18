@@ -7,6 +7,10 @@
   border-top: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
   overflow: hidden;
+  .ws--link-list-bordered {
+    margin-top: 16px;
+    margin-bottom: 4px;
+  }
   + .ws--collapsible {
     border-top: none;
   }
@@ -26,9 +30,10 @@
     display: block;
     position: relative;
     width: 100%;
-    padding: 20px 0;
+    padding: 12px 0;
     text-align: left;
     cursor: pointer;
+    font-size: 13px;
     &[aria-expanded="true"] {
       .ws--collapsible-plus {
         &::before,
@@ -39,9 +44,15 @@
           opacity: 0;
         }
       }
+      + .ws--collapsible-inner {
+        visibility: visible;
+        transition: height 0.35s ease-in-out;
+        height: auto;
+      }
       .ws--collapsible-inner {
         visibility: visible;
         transition: height 0.35s ease-in-out;
+        height: auto;
       }
     }
   }

@@ -29,7 +29,7 @@
                         <div class="d-flex">
                             <input type="hidden" name="contact[tags]" value="newsletter">
                             <input type="email" name="contact[email]" class="form-control" placeholder="{{ 'home_page.newsletter.input' | t }}" required>
-                            <button type="submit" class="ws--form-submit-btn ws--btn ws--btn-primary">{{ 'home_page.newsletter.submit' | t }}</button>
+                            <button type="submit" class="ws--form-submit-btn ws--btn ws--btn-primary">{{ section.settings.button_text }}</button>
                         </div>
                     {%- endform -%}
                 </div>
@@ -101,8 +101,14 @@
       {
         "type": "color",
         "id": "button_color",
-        "label": "Button text",
+        "label": "Button color",
         "default": "#000000"
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button text",
+        "default": "Subscribe"
       },
       {
         "type": "text",

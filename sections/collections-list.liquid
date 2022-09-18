@@ -13,7 +13,9 @@
   {%- capture collection_items -%}
     {%- for block in section.blocks -%}
       {%- assign collection = collections[block.settings.collection] -%}
-      {%- render 'collection-item', block: block, collection: collection, overlay: block.settings.apply_overlay -%}
+      <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+        {%- render 'collection-item', block: block, collection: collection, overlay: block.settings.apply_overlay -%}
+      </div>
     {%- endfor -%}
   {%- endcapture -%}
 

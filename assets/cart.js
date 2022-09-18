@@ -83,10 +83,12 @@ class CartItems extends HTMLElement {
         if (cartDrawerWrapper) cartDrawerWrapper.classList.toggle('is-empty', parsedState.item_count === 0);
 
         this.getSectionsToRender().forEach((section => {
-          const elementToReplace =
-            document.getElementById(section.id).querySelector(section.selector) || document.getElementById(section.id);
-          elementToReplace.innerHTML =
-            this.getSectionInnerHTML(parsedState.sections[section.section], section.selector);
+            if (parsedState.sections[section.section] !== null) {
+              const elementToReplace =
+                  document.getElementById(section.id).querySelector(section.selector) || document.getElementById(section.id);
+              elementToReplace.innerHTML =
+                this.getSectionInnerHTML(parsedState.sections[section.section], section.selector);
+            }
         }));
 
         this.updateLiveRegions(line, parsedState.item_count);
@@ -94,7 +96,7 @@ class CartItems extends HTMLElement {
         if (lineItem && lineItem.querySelector(`[name="${name}"]`)) {
           cartDrawerWrapper ? trapFocus(cartDrawerWrapper, lineItem.querySelector(`[name="${name}"]`)) : lineItem.querySelector(`[name="${name}"]`).focus();
         } else if (parsedState.item_count === 0 && cartDrawerWrapper) {
-          trapFocus(cartDrawerWrapper.querySelector('.drawer__inner-empty'), cartDrawerWrapper.querySelector('a'))
+          trapFocus(cartDrawerWrapper.querySelector('.ws--cart-drawer-content-empty'), cartDrawerWrapper.querySelector('a'))
         } else if (document.querySelector('.cart-item') && cartDrawerWrapper) {
           trapFocus(cartDrawerWrapper, document.querySelector('.cart-item__name'))
         }
@@ -122,14 +124,25 @@ class CartItems extends HTMLElement {
     }
 
     this.currentItemCount = itemCount;
-    this.lineItemStatusElement.setAttribute('aria-hidden', true);
+    if (this.lineItemStatusElement) {
+      this.lineItemStatusElement.setAttribute('aria-hidden', true);
+    }
 
     const cartStatus = document.getElementById('cart-live-region-text') || document.getElementById('CartDrawer-LiveRegionText');
-    cartStatus.setAttribute('aria-hidden', false);
+    if (cartStatus) {
+      cartStatus.setAttribute('aria-hidden', false);
 
-    setTimeout(() => {
-      cartStatus.setAttribute('aria-hidden', true);
-    }, 1000);
+      setTimeout(() => {
+        cartStatus.setAttribute('aria-hidden', true);
+      }, 1000);
+    }
+
+    if (itemCount === 0) {
+      const cartDot = document.querySelector('.ws--header-cart-dot');
+      if (cartDot) {
+        cartDot.remove();
+      }
+    }
   }
 
   getSectionInnerHTML(html, selector) {

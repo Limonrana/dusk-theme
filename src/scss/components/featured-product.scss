@@ -49,7 +49,7 @@ body {
   letter-spacing: 5px;
 }
 .sales-price-red {
-  color: red;
+  color: var(--product-sale-price-color);
 }
 .line-through {
   text-decoration: line-through;
@@ -71,13 +71,13 @@ body {
         min-width: 36px;
         padding: 6px 10px;
         border: 1px solid #cfcfcf;
-        color: #6a6a6a;
+        color: var(--text-color-light);
         cursor: pointer;
       }
       .ws--color-swatch {
         height: 35px;
         width: 35px;
-        border: 1px solid rgb(173, 160, 160);
+        border: 1px solid rgb(var(--border-color-rgb));
         display: flex;
         justify-content: center;
         align-items: center;
@@ -103,8 +103,8 @@ body {
     border: 1px solid currentColor !important;
   }
   .ws--size-swatch-radio:checked + .ws--size-swatch {
-    border: 1px solid #1c1b1b !important;
-    color: #1c1b1b !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--heading-color) !important;
   }
 }
 
@@ -114,7 +114,7 @@ body {
   margin-bottom: 8px;
 }
 .quantity {
-  border: 1px solid #cfcfcf;
+  border: 1px solid var(--border-color);
   margin-bottom: 20px;
   width: 40%;
   display: flex;
@@ -126,7 +126,7 @@ body {
 .quantity .value-button {
   border: none;
   width: 30%;
-  color: rgb(8, 8, 8);
+  color: var(--heading-color);
   font-size: 15px;
   font-weight: bold;
   text-align: center;
@@ -149,7 +149,7 @@ body {
   margin-top: 20px;
 }
 .ws--view-featured-product-btn a {
-  color: #000;
+  color: var(--button-background);
   display: block;
   margin-top: 10px;
   text-decoration: underline;

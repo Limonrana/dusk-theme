@@ -3,13 +3,34 @@
  * Sidebar
  * ----------------------------------------------------------------------------
  */
+
+.ws--drawer {
+  .ws--drawer-close {
+    left: 24px !important;
+  }
+  &.ws--drawer-from-left {
+    .ws--drawer-container {
+      padding-left: 24px !important;
+      padding-right: 24px !important;
+    }
+  }
+}
+.ws--collapsible {
+  .ws--collapsible-button {
+    &.ws--text-light {
+      &:hover {
+        color: #fff;
+      }
+    }
+  }
+}
 .ws--sidebar-menu {
   height: 100%;
-  background: #1c1b1b !important;
-  color: #ffffff;
+  background: var(--navigation-background) !important;
+  color: var(--navigation-text-color);
   .ws--heading,
   .ws--link-primary:hover {
-    color: #ffffff;
+    color: var(--navigation-text-color);
   }
   .ws--collapsible,
   .ws--link-list {
@@ -36,8 +57,21 @@
   }
   .ws--sidebar-menu-nav-secondary {
     margin-top: 28px;
+    .ws--link {
+      &.ws--link-primary {
+        color: var(--navigation-text-color-light) !important;
+        &:hover {
+          color: var(--navigation-text-color) !important;
+        }
+      }
+    }
   }
   .ws--drawer-content {
+    .ws--drawer-main {
+      &[data-scrollable] {
+        overflow-y: auto;
+      }
+    }
     &::before {
       position: absolute;
       content: "";

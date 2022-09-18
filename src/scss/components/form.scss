@@ -1,12 +1,16 @@
 .ws--form {
   width: 100%;
+  .ws--form-group {
+    display: flex;
+    gap: 10px;
+  }
   .ws--form-item {
     width: 100%;
     margin-bottom: 20px;
     .ws--form-item-label {
       width: 100%;
       font-size: 15px;
-      color: #6a6a6a;
+      color: var(--text-color-light);
       letter-spacing: 1px;
       margin-bottom: 10px;
     }
@@ -14,7 +18,7 @@
       &::placeholder {
         font-size: 15px;
         letter-spacing: 1px;
-        color: #6a6a6a;
+        color: var(--text-color-light);
       }
     }
     .form-control {
@@ -42,18 +46,18 @@
         top: 10px;
         right: 10px;
         font-size: 13px;
-        color: #6a6a6a;
+        color: var(--text-color-light);
         letter-spacing: 1px;
         text-align: right;
         width: auto;
         &:hover {
-          color: #1c1b1b;
+          color: var(--text-color);
         }
       }
     }
   }
   .ws--form-footer {
-    color: #6a6a6a !important;
+    color: var(--text-color-light) !important;
     .ws--link {
       display: inline !important;
     }

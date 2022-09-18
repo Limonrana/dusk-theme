@@ -1,0 +1,152 @@
+
+{%- assign columns_desktop = section.settings.columns_desktop -%}
+{%- assign columns_mobile  = section.settings.columns_mobile -%}
+  
+{%- if columns_desktop == 4 -%}
+    {%- assign desktop_lg_columns = 3 -%}
+    {%- assign desktop_md_columns = 4 -%}
+{% elsif columns_desktop == 3 %}
+    {%- assign desktop_lg_columns = 4 -%}
+    {%- assign desktop_md_columns = 4 -%}
+{%- else -%}
+    {%- assign desktop_lg_columns = 6 -%}
+    {%- assign desktop_md_columns = 6 -%}
+{%- endif -%}
+
+{%- if columns_mobile == '2' -%}
+    {%- assign mobile_sm_columns = 6 -%}
+{%- else -%}
+    {%- assign mobile_sm_columns = 12 -%}
+{%- endif -%}
+
+<section class="ws--search-page" data-section-id="search" data-section-type="search">
+    <div class="ws--container-lg">
+        {%- if search.performed == false or search.results_count == 0 -%}
+            <div class="ws--empty-state">
+                <div class="container">
+                <h1 class="ws--empty-state-title ws--heading ws--h4">{{ 'search.general.title' | t }}</h1>
+        
+                {%- if search.performed -%}
+                    {%- assign filtered_terms = search.terms | replace: '*', '' -%}
+                    <p>{{ 'search.general.no_results_with_terms' | t: terms: filtered_terms }}</p>
+                {%- else -%}
+                    <p>{{ 'search.general.content' | t }}</p>
+                {%- endif -%}
+        
+                <div class="ws--empty-state-action ws--search-form-section">
+                    <form method="GET" action="{{ routes.search_url }}" class="ws--form">
+                        <div class="ws--form-item ws--postion-relative">
+                            <input class="form-control" type="text" name="q" autocomplete="off" autocorrect="off" placeholder="{{ 'search.general.input_placeholder' | t }}">
+                            <button type="submit" class="ws--form-item-absolute ws--link ws--link-primary">
+                                {%- render 'icon', icon: 'search' -%}
+                            </button>
+                        </div>
+                        <input type="hidden" name="type" value="product">
+                    </form>
+                </div>
+                </div>
+            </div>
+        {%- else -%}
+        {%- paginate search.results by section.settings.grid_items_per_page -%}
+            <header class="ws--page-header">
+                <div class="ws--section-header ws--section-header-center">
+                    <h1 class="ws--section-header-heading ws--heading ws--h1">{{ 'search.general.title' | t }}</h1>
+        
+                    <div class="ws--section-header-description">
+                        {%- assign filtered_terms = search.terms | replace: '*', '' -%}
+                        {{- 'search.general.results_with_terms_count' | t: count: search.results_count, terms: filtered_terms -}}
+                    </div>
+                </div>
+            </header>
+
+            <div class="ws--collection-page">
+                <div class="ws--main-collection">
+                    <div class="ws--collection-inner">
+                        <div id="search-grid" class="row">
+                            {%- for item in search.results -%}
+                                <div class="col-lg-{{ desktop_lg_columns }} col-md-{{ desktop_md_columns }} col-sm-{{ mobile_sm_columns }} col-{{ mobile_sm_columns }}">
+                                    {%- case item.object_type -%}
+                                        {%- when 'product' -%}
+                                            {%- render 'card-product', 
+                                                card_product: item,
+                                                show_product_info: true,
+                                                show_vendor: true,
+                                                show_color_swatch: true,
+                                                show_labels: true
+                                            -%}
+                                        {%- when 'article' -%}
+                                            {% render 'article-item', article: item %}
+                                        {%- when 'page' -%}
+                                            <div class="card-wrapper">
+                                                <div class="card card-text">
+                                                    <div class="card__content">
+                                                        <div class="card__information">
+                                                            <h3 class="ws--heading ws--h3">
+                                                                <a href="{{ item.url }}" class="ws--link">
+                                                                    {{ item.title | truncate: 50 | escape }}
+                                                                </a>
+                                                            </h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    {%- endcase -%}
+                                </div>
+                            {%- endfor -%}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {%- render 'pagination', paginate: paginate -%}
+        {%- endpaginate -%}
+        {%- endif -%}
+    </div>
+</section>
+
+{% schema %}
+{
+  "name": "Search results",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+        "type": "range",
+        "id": "grid_items_per_page",
+        "label": "Search item per page",
+        "min": 4,
+        "max": 48,
+        "step": 4,
+        "default": 32
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 4,
+      "label": "Number of columns on desktop"
+    },
+    {
+      "type": "header",
+      "content": "Mobile Layout"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "default": "2",
+      "label": "Number of columns on mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 column"
+        },
+        {
+          "value": "2",
+          "label": "2 columns"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

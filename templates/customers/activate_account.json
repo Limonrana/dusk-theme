@@ -1,4 +1,8 @@
 {
-  "sections": {},
-  "order": []
+  "sections": {
+    "main": {
+      "type": "main-active-account"
+    }
+  },
+  "order": ["main"]
 }

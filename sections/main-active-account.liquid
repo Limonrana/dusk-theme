@@ -1,0 +1,40 @@
+<section data-section-id="activate-account" data-section-type="activate-account">
+    <div class="container">
+        <div  class="ws--page-content ws--page-content-fit-screen ws--page-content-extra-narrow">
+            {%- comment -%}
+            --------------------------------------------------------------------------------------------------------------------
+            CUSTOMER ACTIVE ACCOUNT FORM - START
+            --------------------------------------------------------------------------------------------------------------------
+            {%- endcomment -%}
+            {%- form 'activate_customer_password', class: 'ws--form', id: 'activate_customer_password' -%}
+                <div class=" ws--form-heading text-center mb-6">
+                  <h2 class="ws--h1 ws--heading">{{ 'customer.activate_account.title' | t }}</h2>
+                  <p  class="ws--text mt-3">{{ 'customer.activate_account.description' | t }}</p>
+                </div>
+                {% if form.errors %}
+                    {%- for field in form.errors -%}
+                        {%- if field == 'form' -%}
+                            <div class="alert alert-danger d-flex align-items-center mb-3" role="alert">
+                                {{ form.errors.messages[field] }}
+                            </div>
+                        {%- else -%}
+                            <div class="alert alert-danger d-flex align-items-center mb-3" role="alert">
+                                <strong>{{ form.errors.translated_fields[field] }}</strong> {{ form.errors.messages[field] }}
+                            </div>
+                        {%- endif -%}
+                    {%- endfor -%}
+                {% endif %}
+                <div class="ws--form-item">
+                    <input type="password" name="customer[password]" class="form-control" placeholder="{{ 'customer.activate_account.password' | t }}" required autofocus>
+                </div>
+                <div class="ws--form-item">
+                    <input type="password" name="customer[password_confirmation]" class="form-control" placeholder="{{ 'customer.activate_account.password_confirmation' | t }}" required>
+                </div>
+                <div class="d-flex justify-content-between gap-5">
+                  <button type="submit" class="ws--btn ws--btn-primary ws--btn-full">{{ 'customer.activate_account.submit' | t }}</button>
+                  <button type="submit" class="ws--btn ws--btn-secondary ws--btn-full" name="decline">{{ 'customer.activate_account.decline' | t }}</button>
+                </div>
+            {%- endform -%}
+        </div>
+    </div>
+</section>

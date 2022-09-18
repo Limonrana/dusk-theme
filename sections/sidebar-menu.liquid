@@ -1,9 +1,9 @@
 {%- assign main_menu_handle = section.settings.primary_menu | default: 'main-menu' -%}
 {%- assign main_menu = linklists[main_menu_handle] -%}
 
-<section id="sidebar-menu" class="ws--sidebar-menu ws--drawer ws--drawer-small ws--drawer-from-left" aria-hidden="true" data-section-id="{{ section.id }}" data-section-type="sidebar-menu">
+<menu-drawer id="sidebar-menu" class="ws--sidebar-menu ws--drawer ws--drawer-small ws--drawer-from-left" aria-hidden="true">
     <header class="ws--drawer-header" data-drawer-animated-left>
-      <button class="ws--drawer-close ws--icon-wrapper-clickable" data-action="close-drawer" data-drawer-id="sidebar-menu" aria-label="{{ 'header.navigation.close_sidebar' | t }}">
+      <button class="ws--drawer-close ws--icon-wrapper-clickable" data-action="close-drawer">
         {%- render 'icon' with 'close' -%}
       </button>
     </header>
@@ -15,7 +15,7 @@
             {%- for link in main_menu.links -%}
               <div class="ws--collapsible">
                 {%- if link.links != blank -%}
-                  <button class="ws--collapsible-button ws--heading ws--h6" data-action="toggle-collapsible" {% if link.links != blank %}aria-expanded="false"{% endif %}>
+                  <button class="ws--collapsible-button ws--heading ws--h6" data-action="toggle-main-collapsible" aria-expanded="false">
                     {{- link.title | escape -}} <span class="ws--collapsible-plus"></span>
                   </button>
 
@@ -24,16 +24,16 @@
                       {%- for sub_link in link.links -%}
                         <div class="ws--collapsible">
                           {%- if sub_link.links != blank -%}
-                            <button class="ws--collapsible-button ws--heading ws--h7" data-action="toggle-collapsible" {% if sub_link.links != blank %}aria-expanded="false"{% endif %}>
+                            <button class="ws--collapsible-button ws--text-light ws--heading ws--h7" data-action="toggle-sub-collapsible" aria-expanded="false">
                               {{- sub_link.title | escape -}} <span class="ws--collapsible-plus"></span>
                             </button>
 
                             <div class="ws--collapsible-inner">
                               <div class="ws--collapsible-content">
-                                <ul class="ws--link-list ws--link-list--bordered ws--link-list--spacing-loose">
+                                <ul class="ws--link-list ws--link-list-bordered ws--link-list--spacing-loose">
                                   {%- for sub_sub_link in sub_link.links -%}
                                     <li class="ws--link-list-item">
-                                      <a href="{{ sub_sub_link.url }}" class="ws--link ws--link-primary">{{ sub_sub_link.title | escape }}</a>
+                                      <a href="{{ sub_sub_link.url }}" class="ws--link ws--link-secondary">{{ sub_sub_link.title | escape }}</a>
                                     </li>
                                   {%- endfor -%}
                                 </ul>
@@ -77,7 +77,7 @@
 
       {%- if section.settings.show_social_media -%}
         {%- capture social_media -%}
-          {% comment %} {% render 'social-media', class: 'SidebarMenu__Social', spacing: 'fill' %} {% endcomment %}
+          {% render 'social-media', class: 'SidebarMenu__Social', spacing: 'fill' %}
         {%- endcapture -%}
       {%- endif -%}
 
@@ -89,7 +89,7 @@
         </aside>
       {%- endif -%}
     </div>
-</section>
+</menu-drawer>
 
 {% schema %}
 {

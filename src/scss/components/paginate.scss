@@ -4,10 +4,10 @@
 .ws--pagination {
   .page-item {
     padding: 0 20px;
-    border-bottom: 1px solid #cfcfcf;
+    border-bottom: 1px solid var(--border-color);
     .page-link {
       font-size: 14px;
-      color: #6a6a6a;
+      color: var(--text-color-light);
       border: 0;
       margin-bottom: 10px;
       background-color: transparent;
@@ -18,15 +18,15 @@
       }
       &:hover {
         background-color: transparent;
-        color: #1c1b1b !important;
+        color: var(--heading-color) !important;
       }
       &:focus {
         font-size: 16px;
-        color: #1c1b1b !important;
+        color: var(--heading-color) !important;
         background-color: transparent;
         outline: 0;
         box-shadow: none;
-        border-bottom: 1px solid #1c1b1b;
+        border-bottom: 1px solid var(--heading-color);
       }
     }
     &.disabled {
@@ -36,11 +36,11 @@
     }
     &.is-active {
       .page-link {
-        color: #1c1b1b;
+        color: var(--heading-color);
       }
-      color: #1c1b1b;
-      border-bottom-color: #1c1b1b;
-      box-shadow: 0 -2px #1c1b1b inset;
+      color: var(--heading-color);
+      border-bottom-color: var(--heading-color);
+      box-shadow: 0 -2px var(--heading-color) inset;
     }
   }
 }

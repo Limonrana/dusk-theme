@@ -46,6 +46,12 @@
     }
   }
 
+  @if $breakpoint == desktopmax {
+    @media screen and (max-width: 1140px) {
+      @content;
+    }
+  }
+
   @if $breakpoint == widescreen {
     @media screen and (min-width: 1500px) {
       @content;

@@ -38,9 +38,9 @@
         border: none;
         padding: 9px;
         border-radius: 50%;
-        background: #fff;
+        background: var(--button-text-color);
         top: 46%;
-        color: #1c1b1b;
+        color: var(--button-background);
         cursor: pointer;
         text-align: center;
         z-index: 1;
@@ -89,7 +89,7 @@
           width: 16px;
           height: 16px;
           margin: -8px 0 0 -8px;
-          background: #ffffff;
+          background: var(--button-text-color);
           border-radius: 100%;
           box-shadow: 0 1px 10px rgba(0, 0, 0, 0.25);
           cursor: pointer;
@@ -109,9 +109,9 @@
             animation: 1.4s shopTheLookDotKeyframe ease-in-out infinite;
           }
           &.shop-lookslider-dot-dark {
-            background: #000000;
+            background: var(--button-background);
             &::after {
-              background: rgba(0, 0, 0, 0.4);
+              background: var(--button-background);
             }
           }
           &.is-active,
@@ -172,7 +172,7 @@
                     margin-bottom: 4px;
                   }
                   .product-item-price {
-                    color: #6a6a6a;
+                    color: var(--text-color-light);
                   }
                 }
               }
@@ -184,15 +184,15 @@
             margin-top: 20px;
             opacity: 1 !important;
             .product--item-dot {
-              border: 2px solid #6a6a6a !important;
+              border: 2px solid var(--text-color-light) !important;
               border-radius: 50%;
               cursor: pointer;
               width: 10px;
               height: 10px;
               margin: 0 7px;
               &.active {
-                border: #1c1b1b !important;
-                background-color: #1c1b1b !important;
+                border: var(--button-background) !important;
+                background-color: var(--button-background) !important;
                 opacity: 1;
               }
             }

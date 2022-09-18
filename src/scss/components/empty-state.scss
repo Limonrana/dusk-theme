@@ -8,8 +8,8 @@
   .ws--segment-title {
     margin-bottom: 24px;
     padding-bottom: 10px;
-    border-bottom: 1px solid #cfcfcf;
-    color: #6a6a6a;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-color-light);
   }
 }
 .ws--empty-state {

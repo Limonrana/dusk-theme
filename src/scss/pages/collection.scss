@@ -6,9 +6,15 @@
     .ws--collection-inner {
       margin-top: 50px;
       padding-right: 45px;
+      @include devices(phone) {
+        padding-right: 0;
+      }
     }
   }
   .ws--product-item {
+    @include devices(phone) {
+      padding-left: 10px;
+    }
     padding-left: 45px;
     margin-bottom: 45px;
     .ws--product-item-wrapper {
@@ -19,7 +25,7 @@
           top: 0;
           left: 0;
           opacity: 1;
-          min-height: 350px;
+          min-height: 200px;
           width: 100%;
           &.ws--product-item-img-alternate {
             position: absolute;
@@ -47,11 +53,11 @@
           position: absolute;
           top: 10px;
           left: 10px;
-          background-color: #fff;
+          background-color: var(--light-background);
           padding: 2px 8px;
           span {
             font-size: 12px;
-            color: #6a6a6a;
+            color: var(--text-color-light);
             letter-spacing: 2px;
           }
         }
@@ -66,7 +72,7 @@
         .ws--product-price {
           display: inline-block;
           &.ws--price-highlight {
-            color: #f94c43 !important;
+            color: var(--product-sale-price-color) !important;
           }
           &.ws--price-compare-at {
             position: relative;
@@ -110,8 +116,8 @@
       display: flex;
       justify-content: space-between;
       width: 100%;
-      background: #efefef;
-      box-shadow: 1px 1px #cfcfcf, -1px -1px #cfcfcf;
+      background: var(--background);
+      box-shadow: 1px 1px var(--border-color), -1px -1px var(--border-color);
       z-index: 2;
       //   overflow: hidden;
       &.ws--collection-toolbar-top {
@@ -146,7 +152,7 @@
       .ws--collection-toolbar-item {
         flex: 1 0 auto;
         padding: 13px 0;
-        border-left: 1px solid #cfcfcf;
+        border-left: 1px solid var(--border-color);
         text-align: center;
         vertical-align: middle;
         cursor: pointer;
@@ -175,7 +181,7 @@
           @include devices(tabletUp) {
             border-left: none;
             width: 115px;
-            border-right: 1px solid #cfcfcf;
+            border-right: 1px solid var(--border-color);
             white-space: nowrap;
           }
         }
@@ -201,15 +207,15 @@
           text-transform: uppercase;
           .dropdown-item {
             padding: 12px 50px 12px 70px;
-            color: #6a6a6a;
+            color: var(--text-color-light);
             &:hover {
               background-color: #f4f4f4;
-              color: #1c1b1b;
+              color: var(--text-color);
             }
             &.active,
             &:active {
               background-color: #f4f4f4;
-              color: #1c1b1b;
+              color: var(--text-color);
             }
           }
         }

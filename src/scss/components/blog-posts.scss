@@ -9,9 +9,12 @@ article.card {
       .article-excerpt {
         font-size: 14px;
         font-weight: 400;
-        color: #1c1b1b;
+        color: var(--button-background);
         line-height: 22px;
         margin: 15px 0px;
+      }
+      .read-more-btn {
+        display: inline-block;
       }
     }
   }

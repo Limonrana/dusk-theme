@@ -1,3 +1,8 @@
+/**
+ * ----------------------------------------------------------------------------
+ * RTE Content CSS
+ * ----------------------------------------------------------------------------
+ */
 .rte:after {
   clear: both;
   content: "";
@@ -42,14 +47,14 @@
 }
 
 .rte a {
-  color: rgba(var(--color-link), var(--alpha-link));
+  color: var(--text-color-light);
   text-underline-offset: 0.3rem;
   text-decoration-thickness: 0.1rem;
   transition: text-decoration-thickness 0.2s ease;
 }
 
 .rte a:hover {
-  color: rgb(var(--color-link));
+  color: #575757;
   text-decoration-thickness: 0.2rem;
 }
 

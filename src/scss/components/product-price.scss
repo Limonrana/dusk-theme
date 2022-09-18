@@ -1,0 +1,115 @@
+/**
+ * ----------------------------------------------------------------------------
+ * Product Price CSS
+ * ----------------------------------------------------------------------------
+ */
+
+.ws--price {
+  margin-top: 15px;
+  font-size: 1.6rem;
+  letter-spacing: 0.1rem;
+  line-height: calc(1 + 0.5 / 1);
+  color: #6a6a6a;
+  > * {
+    display: inline-block;
+    vertical-align: top;
+  }
+  .ws--badge {
+    border: 1px solid transparent;
+    border-radius: 4rem;
+    display: inline-block;
+    font-size: 1.2rem;
+    letter-spacing: 0.1rem;
+    line-height: 1;
+    padding: 0.5rem 1.3rem 0.6rem;
+    text-align: center;
+    background-color: var(--button-background);
+    color: var(--button-text-color);
+    word-break: break-word;
+  }
+  &.ws--price-sold-out {
+    &.ws--price-show-badge {
+      .ws--price-badge-sold-out {
+        display: inline-block !important;
+      }
+    }
+  }
+  &.ws--price-on-sale {
+    &.ws--price-show-badge {
+      .ws--price-badge-sale {
+        display: inline-block !important;
+        background-color: #334fb4 !important;
+      }
+    }
+  }
+  &.ws--price-unavailable {
+    visibility: hidden;
+  }
+  .ws--price-item {
+    margin: 0 1rem 0 0;
+  }
+  .ws--price-regular {
+    .ws--price-item-regular {
+      margin-right: 0;
+    }
+  }
+  &:not(.ws--price-show-badge) {
+    .ws--price-item-last {
+      &:last-of-type {
+        margin: 0;
+      }
+    }
+  }
+  &.ws--price-large {
+    font-size: 1.6rem;
+    line-height: calc(1 + 0.5 / 1);
+    letter-spacing: 0.13rem;
+  }
+  &.ws--price-sold-out {
+    .ws--price-availability {
+      display: block;
+    }
+  }
+  .ws--price-regular {
+    display: block;
+  }
+  .ws--price-sale,
+  .ws--price-availability,
+  .ws--price-badge-sale,
+  .ws--price-badge-sold-out,
+  &.ws--price-on-sale .ws--price-regular,
+  &.ws--price-on-sale .ws--price-availability {
+    display: none;
+  }
+  &.ws--price-on-sale .ws--price-sale {
+    display: initial;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  &.ws--price-on-sale .ws--price-item-regular {
+    text-decoration: line-through;
+    color: var(--product-sale-price-color);
+    font-size: 1.5rem;
+  }
+  .ws--unit-price {
+    display: block;
+    font-size: 1.1rem;
+    letter-spacing: 0.04rem;
+    line-height: calc(1 + 0.2 / 1);
+    margin-top: 0.2rem;
+    text-transform: uppercase;
+    color: var(--text-color-light);
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .ws--price {
+    margin-bottom: 0;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .ws--price-large {
+    font-size: 1.8rem;
+  }
+}

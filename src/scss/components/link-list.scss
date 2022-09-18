@@ -7,6 +7,11 @@
 .ws--link-list {
   list-style: none;
   padding: 0;
+  &.ws--link-list-bordered {
+    margin-left: 8px;
+    padding: 0 20px 0 25px;
+    border-left: 1px solid var(--border-color);
+  }
   .ws--link-list-item {
     position: relative;
     display: block;
@@ -42,7 +47,7 @@
   .ws--link-list-bordered {
     margin-left: 8px;
     padding: 0 20px 0 25px;
-    border-left: 1px solid #dddddd;
+    border-left: 1px solid var(--border-color);
     &li {
       &:first-child {
         .ws--link-list-item {
@@ -65,21 +70,21 @@
   font-size: 14px;
   transition: color 0.2s ease-in-out, opacity 0.2s ease-in-out;
   &.ws--link-primary {
-    color: #1c1b1b;
+    color: var(--text_color);
     &.is-active {
-      color: #1c1b1b;
+      color: var(--text_color);
     }
     &:hover {
-      color: #1c1b1b;
+      color: var(--text_color);
     }
   }
   &.ws--link-secondary {
-    color: #6a6a6a;
+    color: var(--link-color);
     &.is-active {
-      color: #6a6a6a;
+      color: var(--link-color);
     }
     &:hover {
-      color: #6a6a6a;
+      color: var(--link-color);
     }
   }
   &.ws--link-underline {
@@ -100,6 +105,10 @@
   }
   &.ws--link-underline-short::before {
     width: 100%;
+  }
+  &.ws--link-underline-native {
+    text-decoration: underline;
+    text-underline-position: under;
   }
 }
 @media (-moz-touch-enabled: 0), (hover: hover) {

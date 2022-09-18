@@ -1,0 +1,227 @@
+<section class="ws--container mb-10" id="section-{{ section.id }}">
+    <div class="ws--page-header">
+      <div class="ws--page-section-header text-center">
+        <h2 class="ws--h1 ws--heading">{{- section.settings.title | escape -}}</h2>
+      </div>
+    </div>
+    <div class="ws--collection-list-page">
+        <div class="row ws--row {% if section.settings.add_spacing %}ws--collection-card-space{% endif %}">
+            {%- for collection in collections -%}
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                    {%- render 'collection-item', 
+                        collection: collection, 
+                        image_alignment: section.settings.image_alignment, 
+                        content_position: section.settings.content_position,
+                        overlay: section.settings.apply_overlay
+                    -%}
+                </div>
+            {%- endfor -%}
+        </div>
+    </div>
+</section>
+
+<style>
+    #section-{{ section.id }} .ws--collection-card .ws--heading {
+      color: {{ section.settings.text_color }} !important;
+    }
+  
+    .ws--row {
+      --bs-gutter-x: 0 !important;
+    }
+  
+    #section-{{ section.id }} .ws--btn-primary {
+      color: {{ section.settings.button_color }};
+      border-color: {{ section.settings.text_color }};
+    }
+  
+    #section-{{ section.id }} .ws--btn-primary::before {
+      background-color: {{ section.settings.text_color }};
+    }
+
+    @media screen and (min-width: 641px) {
+        #section-{{ section.id }} .ws--collection-card-space {
+            margin: 0 !important;
+        }
+    }
+
+    @media screen and (min-width: 1140px) {
+        #section-{{ section.id }} {
+            padding: 0 40px !important;
+        }
+    }
+  
+    @media (-moz-touch-enabled: 0), (hover: hover) {
+      #section-{{ section.id }} .ws--btn-primary:hover {
+        color: {{ section.settings.text_color }};
+      }
+    }
+  </style>
+
+{% schema %}
+{
+  "name": "Collections list page",
+  "class": "section",
+  "settings": [
+    {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Collections"
+    },
+    {
+        "type": "select",
+        "id": "image_size",
+        "label": "Image size",
+        "options": [
+          {
+            "value": "small",
+            "label": "Small"
+          },
+          {
+            "value": "normal",
+            "label": "Normal"
+          },
+          {
+            "value": "large",
+            "label": "Large"
+          }
+        ],
+        "default": "normal"
+    },
+    {
+        "type": "checkbox",
+        "id": "add_spacing",
+        "label": "Add spacing",
+        "default": true
+    },
+    {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text",
+        "default": "#ffffff"
+    },
+    {
+        "type": "color",
+        "id": "button_color",
+        "label": "Button text",
+        "default": "#363636"
+    },
+    {
+        "type": "range",
+        "id": "columns_desktop",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "default": 3,
+        "label": "Number of columns on desktop"
+    },
+    {
+        "type": "header",
+        "content": "Collection"
+    },
+    {
+        "type": "select",
+        "id": "image_alignment",
+        "label": "Image alignment",
+        "options": [
+          {
+            "value": "top left",
+            "label": "Top left"
+          },
+          {
+            "value": "top center",
+            "label": "Top center"
+          },
+          {
+            "value": "top right",
+            "label": "Top right"
+          },
+          {
+            "value": "center left",
+            "label": "Middle left"
+          },
+          {
+            "value": "center center",
+            "label": "Middle center"
+          },
+          {
+            "value": "center right",
+            "label": "Middle right"
+          },
+          {
+            "value": "bottom left",
+            "label": "Bottom left"
+          },
+          {
+            "value": "bottom center",
+            "label": "Bottom center"
+          },
+          {
+            "value": "bottom right",
+            "label": "Bottom right"
+          }
+        ],
+        "default": "center center"
+    },
+    {
+        "type": "select",
+        "id": "content_position",
+        "label": "Content position",
+        "options": [
+            {
+            "value": "middle-left",
+            "label": "Middle left"
+            },
+            {
+            "value": "middle-right",
+            "label": "Middle right"
+            },
+            {
+            "value": "middle-center",
+            "label": "Middle center"
+            },
+            {
+            "value": "bottom-left",
+            "label": "Bottom left"
+            },
+            {
+            "value": "bottom-right",
+            "label": "Bottom right"
+            },
+            {
+            "value": "bottom-center",
+            "label": "Bottom center"
+            }
+        ],
+        "default": "bottom-left"
+    },
+    {
+        "type": "checkbox",
+        "id": "apply_overlay",
+        "label": "Apply overlay on image",
+        "info": "This can improve text visibility.",
+        "default": true
+    },
+    {
+        "type": "header",
+        "content": "Mobile Layout"
+    },
+    {
+        "type": "select",
+        "id": "columns_mobile",
+        "options": [
+            {
+            "value": "1",
+            "label": "1 column"
+            },
+            {
+            "value": "2",
+            "label": "2 columns"
+            }
+        ],
+        "default": "2",
+        "label": "Number of columns on mobile"
+    }
+  ]
+}
+{% endschema %}

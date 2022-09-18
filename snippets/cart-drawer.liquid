@@ -1,0 +1,146 @@
+<script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
+
+
+<cart-drawer class="offcanvas offcanvas-end ws--cart-drawer{% if cart == empty %} is-empty{% endif %}" tabindex="-1" id="cartDrawerRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header ws--cart-drawer-header">
+        <h3 class="ws--h3 ws--heading">cart</h3>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div id="CartDrawer" class="cart-drawer">
+        <div class="drawer__inner">
+            <div class="offcanvas-body ws--cart-drawer-content">
+                {%- if cart == empty -%}
+                    <div class="ws--cart-drawer-content-empty">
+                        <h3 class="ws--cart-empty ws--heading ws--h3">{{ 'cart.general.empty' | t }}</h3>
+                    </div>
+                {%- endif -%}
+                <cart-drawer-items {% if cart == empty %}class=" is-empty"{% endif %}>
+                    <form action="{{ routes.cart_url }}" id="CartDrawer-Form" class="cart-drawer__form" method="post">
+                        <div id="CartDrawer-CartItems" class="drawer__contents js-contents">
+                            {%- for item in cart.items -%}
+                                <div class="ws--cart-drawer-item">
+                                    <div class="row">
+                                        <!-- cart product img -->
+                                        <div class="col-md-5">
+                                            <div class="ws--cart-drawer-item-image-wrapper">
+                                                <div class="ws--aspectRatio" style="--aspect-ratio: {{ item.image.aspect_ratio }}">
+                                                    <img class="ws--cart-drawer-item-image" src="{{ item.image | image_url: width: 240 }}" alt="{{ item.image.alt | escape }}" loading="lazy">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- cart product details -->
+                                        <div class="col-md-7">
+                                            <div class="ws--cart-drawer-item-details text-start">
+                                                <div class="cart-item-title ws--heading">
+                                                    <a href="{{ item.url }}"><h2>{{ item.product.title }}</h2></a>
+                                                </div>
+                                                {%- if item.product.has_only_default_variant == false or item.properties.size != 0 or item.selling_plan_allocation != nil -%}
+                                                    <div class="cart-item-meta ws--text-light">
+                                                        {%- if item.product.has_only_default_variant == false -%}
+                                                            <ul class="cart-item-options-list">
+                                                                {%- for option in item.options_with_values -%}
+                                                                    <li class="cart-item-option">{{ option.name }}: {{ option.value }}</li>
+                                                                {%- endfor -%}
+                                                            </ul>
+                                                        {% endif %}
+                                                        <ul class="cart-item-property-list">
+                                                            {%- for property in item.properties -%}
+                                                                {%- assign property_first_char = property.first | slice: 0 -%}
+                                                                {%- if property.last != blank and property_first_char != '_' -%}
+                                                                    <li class="cart-item-property">
+                                                                        <span>{{ property.first }}: </span>
+                                                                        {%- if property.last contains '/uploads/' -%}
+                                                                            <a href="{{ property.last }}" class="ws--link ws--link-primary" target="_blank">
+                                                                                {{ property.last | split: '/' | last }}
+                                                                            </a>
+                                                                        {%- else -%}
+                                                                            {{ property.last }}
+                                                                        {%- endif -%}
+                                                                    </li>
+                                                                {%- endif -%}
+                                                            {%- endfor -%}
+                                                        </ul>
+                                                    </div>
+                                                {% endif %}
+                                                <!-- product_pricing -->
+                                                {%- if item.original_price != item.final_price -%}
+                                                    <div class="cart-item-price">
+                                                        <span class="old-price">{{ item.original_price | money }}</span>
+                                                        <span class="original-price">{{ item.final_price | money }}</span>
+                                                    </div>
+                                                {%- else -%}
+                                                    <div class="cart-item-price">
+                                                        <span class="original-price">{{ item.original_price | money }}</span>
+                                                    </div>
+                                                {%- endif -%}
+                                                <!-- cart-quantity -->
+                                                <div class="ws--cart-drawer-item-actions">
+                                                    <quantity-input class="ws--quantity-selector">
+                                                        <button type="button" class="ws--quantity-selector-btn ws--link ws--link-primary" name="minus">
+                                                            {%- render 'icon' with 'minus' -%}
+                                                        </button>
+                                                        <input class="ws--quantity-selector-input"
+                                                            type="number"
+                                                            name="updates[]"
+                                                            value="{{ item.quantity }}"
+                                                            min="0"
+                                                            id="Drawer-quantity-{{ item.index | plus: 1 }}"
+                                                            pattern="[0-9]*"
+                                                            data-index="{{ item.index | plus: 1 }}"
+                                                        >
+                                                        <button type="button" class="ws--quantity-selector-btn ws--link ws--link-primary" name="plus">
+                                                            {%- render 'icon' with 'plus' -%}
+                                                        </button>
+                                                    </quantity-input>
+                                                    <cart-remove-button id="Remove-{{ item.index | plus: 1 }}" data-index="{{ item.index | plus: 1 }}" class="ws--quantity-remove-btn text-center">
+                                                        <a href="{{ item.url_to_remove }}" class="cart-item-remove ws--link ws--link-underline">{{ 'cart.items.remove' | t }}</a>
+                                                    </cart-remove-button>
+                                                </div>
+                                                <div class="cart-item__error" id="CartDrawer-LineItemError-{{ item.index | plus: 1 }}" role="alert">
+                                                    <small class="cart-item__error-text"></small>
+                                                    <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-error" viewBox="0 0 13 13">
+                                                        <circle cx="6.5" cy="6.50049" r="5.5" stroke="white" stroke-width="2"/>
+                                                        <circle cx="6.5" cy="6.5" r="5.5" fill="#EB001B" stroke="#EB001B" stroke-width="0.7"/>
+                                                        <path d="M5.87413 3.52832L5.97439 7.57216H7.02713L7.12739 3.52832H5.87413ZM6.50076 9.66091C6.88091 9.66091 7.18169 9.37267 7.18169 9.00504C7.18169 8.63742 6.88091 8.34917 6.50076 8.34917C6.12061 8.34917 5.81982 8.63742 5.81982 9.00504C5.81982 9.37267 6.12061 9.66091 6.50076 9.66091Z" fill="white"/>
+                                                        <path d="M5.87413 3.17832H5.51535L5.52424 3.537L5.6245 7.58083L5.63296 7.92216H5.97439H7.02713H7.36856L7.37702 7.58083L7.47728 3.537L7.48617 3.17832H7.12739H5.87413ZM6.50076 10.0109C7.06121 10.0109 7.5317 9.57872 7.5317 9.00504C7.5317 8.43137 7.06121 7.99918 6.50076 7.99918C5.94031 7.99918 5.46982 8.43137 5.46982 9.00504C5.46982 9.57872 5.94031 10.0109 6.50076 10.0109Z" fill="white" stroke="#EB001B" stroke-width="0.7">
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {%- endfor -%}
+                        </div>
+                    </form>
+                </cart-drawer-items>
+            </div>
+            <div class="offcanvas-footer ws--cart-drawer-footer text-start" {{ block.shopify_attributes }}>
+                {%- capture shipping_and_taxes_notice -%}{{ 'cart.general.shipping_and_taxes_notice' | t }}{%- endcapture -%}
+                {%- if cart.note == blank -%}
+                    <button type="button" class="ws--cart-drawer-note-btn" cart-drawer-note-container>{{ 'cart.general.add_note' | t }}</button>
+                {%- else -%}
+                    <button type="button" class="ws--cart-drawer-note-btn" cart-drawer-note-container>{{ 'cart.general.edit_note' | t }}</button>
+                {%- endif -%}
+                {%- if shipping_and_taxes_notice != blank -%}
+                    <p class="ws--text-light">{{ shipping_and_taxes_notice }}</p>
+                {%- endif -%}
+                <div class="ws--cart-drawer-checkout-btn">
+                    <button type="submit" class="ws--btn ws--btn-primary" name="checkout" form="CartDrawer-Form"{% if cart == empty %} disabled{% endif %}>Checkout . {{ cart.total_price | money_without_trailing_zeros }}</button> 
+                </div>
+        
+                <cart-drawer-note-container class="ws--cart-drawer-note-container" aria-hidden="true">
+                    {%- if cart.note == blank -%}
+                    <span class="ws--cart-drawer-note-btn">{{ 'cart.general.add_note' | t }}</span>
+                    {%- else -%}
+                    <span class="ws--cart-drawer-note-btn">{{ 'cart.general.edit_note' | t }}</span>
+                    {%- endif -%}
+        
+                    <cart-note class="ws--input-item">
+                        <textarea id="CartDrawer-Note" class="form-control" name="note" rows="3" placeholder="{{ 'cart.general.note_placeholder' | t }}">{{ cart.note }}</textarea>
+                    </cart-note>
+                    <button type="button" class="ws--btn ws--btn-primary" cart-note-save>{{ 'cart.general.save_note' | t }}</button>
+                </cart-drawer-note-container>
+            </div>
+        </div>
+    </div>
+</cart-drawer>

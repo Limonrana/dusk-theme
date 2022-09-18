@@ -44,9 +44,9 @@
           }
         }
         th {
-          font-family: var(--font-heading-family);
-          font-weight: var(--font-heading-weight);
-          font-style: var(--font-heading-style);
+          font-family: var(--heading-font-family);
+          font-weight: var(--heading-font-weight);
+          font-style: var(--heading-font-style);
           text-transform: uppercase;
           letter-spacing: 0.2em;
           padding-top: 0;
@@ -61,7 +61,7 @@
         th,
         td {
           padding: 18px 10px;
-          border-bottom: 1px solid #cfcfcf;
+          border-bottom: 1px solid var(--border-color);
           text-align: left;
           vertical-align: middle;
         }
@@ -122,8 +122,8 @@
       .address-heading {
         margin-bottom: 24px;
         padding-bottom: 10px;
-        border-bottom: 1px solid #cfcfcf;
-        color: #6a6a6a;
+        border-bottom: 1px solid var(--border-color);
+        color: var(--text-color-light);
       }
 
       &.ws--address-billing {

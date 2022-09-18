@@ -1,0 +1,44 @@
+/**
+ * ----------------------------------------------------------------------------
+ * Gift Card Page
+ * ----------------------------------------------------------------------------
+ */
+.ws--gift-card {
+  text-align: center;
+  .ws--page-content {
+    .ws--gift-card-redeem {
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      align-items: center;
+    }
+    .ws--gift-card-wrapper {
+      position: relative;
+      max-width: 400px;
+      margin: 0 auto;
+      .ws--gift-card-illustration-wrapper {
+        position: relative;
+        margin: 40px 0;
+        .ws--gift-card-code-holder {
+          position: absolute;
+          display: inline-block;
+          margin: 0 auto;
+          bottom: 20px;
+          left: 50%;
+          white-space: nowrap;
+          padding: 12px 20px;
+          background: #ffffff;
+          border-radius: 3px;
+          transform: translate(-50%);
+        }
+      }
+      .ws--gift-card-qr-code {
+        margin: 20px 0;
+        img {
+          margin: auto;
+        }
+      }
+    }
+  }
+}

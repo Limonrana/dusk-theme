@@ -22,10 +22,10 @@
 
 // Headings for the content
 .ws--heading {
-  font-family: var(--font-heading-family);
-  font-weight: var(--font-heading-weight);
-  font-style: var(--font-heading-style);
-  color: rgb(var(--color-foreground));
+  font-family: var(--heading-font-family);
+  font-weight: var(--heading-font-weight);
+  font-style: var(--heading-font-style);
+  color: var(--heading-color);
   transition: color 0.2s ease-in-out;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -74,7 +74,7 @@
 
 // Text Color CSS
 .ws--text-light {
-  color: #6a6a6a !important;
+  color: var(--text-color-light) !important;
 }
 
 // Image And SVG Elements CSS
@@ -100,7 +100,7 @@
 
 // Text elements (paragraphs, headings, etc.)
 .ws--text {
-  color: #6a6a6a;
+  color: var(--text-color-light);
   transition: color 0.2s ease-in-out;
 }
 
@@ -183,9 +183,11 @@ a:hover {
 }
 .ws--btn {
   background-color: transparent;
-  border-color: #1c1b1b;
+  border-color: var(--button-background);
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
   padding: 12px 28px;
   line-height: normal;
   border: 1px solid transparent;
@@ -194,13 +196,20 @@ a:hover {
   font-size: 14px;
   text-align: center;
   letter-spacing: 0.2em;
-  font-family: var(--font-heading-family);
-  font-weight: var(--font-heading-weight);
-  font-style: var(--font-heading-style);
+  font-family: var(--heading-font-family);
+  font-weight: var(--heading-font-weight);
+  font-style: var(--heading-font-style);
   transition: color 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86),
     border 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86);
   z-index: 1;
   -webkit-tap-highlight-color: initial;
+  &.ws--loading {
+    color: transparent !important;
+    position: relative !important;
+    span {
+      position: absolute;
+    }
+  }
 }
 .ws--btn::before {
   position: absolute;
@@ -221,21 +230,23 @@ a:hover {
   width: 100% !important;
 }
 .ws--btn-primary {
-  border-color: #1c1b1b;
-  color: #ffffff;
+  border-color: var(--button-background);
+  color: var(--button-text-color);
 }
 .ws--btn-primary::before {
-  background-color: #1c1b1b;
+  background-color: var(--button-background);
 }
 
 .ws--btn-secondary {
-  border-color: rgba(106, 106, 106);
-  color: #6a6a6a;
+  border-color: var(--button-secondary-text-color);
+  color: var(--button-secondary-text-color);
 }
 
 .ws--btn-secondary::before {
-  color: #6a6a6a;
+  color: var(--button-secondary-text-color);
   background-color: transparent;
+  color: var(--button-secondary-text-color);
+  background-color: var(--button-secondary-background);
 }
 
 .ws--btn-separator-dot {
@@ -257,21 +268,21 @@ a:hover {
     transform: scale(0, 1);
   }
   .ws--btn-primary:not([disabled]):hover {
-    color: #1c1b1b;
+    color: var(--button-background);
     background-color: transparent;
   }
   .ws--btn-secondary:not([disabled]):hover {
-    color: #ffffff;
-    background-color: #1c1b1b;
+    color: var(--button-text-color);
+    background-color: var(--button-background);
   }
 }
 
 // Nav Tab CSS
 .ws--nav-tab-link {
-  color: #1c1b1b !important;
+  color: var(--button-background) !important;
   padding: 0 !important;
   &.active {
-    border-bottom: 1px solid #1c1b1b !important;
+    border-bottom: 1px solid var(--button-background) !important;
   }
 }
 
@@ -295,9 +306,9 @@ a:hover {
 }
 
 .shopify-payment-button__button--unbranded {
-  background-color: #1c1b1b;
-  border-color: #1c1b1b;
-  color: #ffffff;
+  background-color: var(--button-background);
+  border-color: var(--button-background) !important;
+  color: var(--button-text-color);
   position: relative;
   display: inline-block;
   width: 100% !important;
@@ -333,12 +344,16 @@ a:hover {
   z-index: -1;
 }
 
+.shopify-payment-button__button--hidden {
+  display: none;
+}
+
 @media (-moz-touch-enabled: 0), (hover: hover) {
   .shopify-payment-button__button--unbranded::before {
     transition: transform 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86);
   }
   .shopify-payment-button__button--unbranded:not([disabled]):hover {
-    color: #1c1b1b;
+    color: var(--button-background);
     background-color: transparent;
   }
   .shopify-payment-button__button--unbranded:hover::before {

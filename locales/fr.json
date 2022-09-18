@@ -320,6 +320,7 @@
       "variant_label": "Variante",
       "sku": "SKU",
       "share": "Partager",
+      "share_url": "Link",
       "price": "Prix",
       "quantity": "Quantité",
       "from_price_html": "À partir de {{min_price}}",
@@ -338,7 +339,11 @@
       "pre_order": "Pré-commander",
       "unavailable": "Indisponible",
       "view_info": "En savoir plus",
-      "view_images": "Voir les images"
+      "view_images": "Voir les images",
+      "pickup_availability": {
+        "unavailable": "Couldn't load pickup availability",
+        "refresh": "Refresh"
+      }
     },
     "tabs": {
       "reviews": "Avis"
@@ -354,7 +359,8 @@
       "disabled": "Votre carte cadeau est désactivée.",
       "expired": "Votre carte cadeau a expiré le {{ expiry }}.",
       "expires_on": "Votre carte cadeau expire le {{ expiry }}.",
-      "redeem_html": "Utilisez ce code au moment de payer, ou {{print_link}} cette page.",
+      "redeem_html": "<span>Utilisez ce code au moment de payer, ou</span> {{print_link}} <span>cette page.</span>",
+      "qr_image_alt": "QR code — scan to redeem gift card",
       "shop_link": "Explorer nos produits",
       "print": "imprimez",
       "initial_amount_html": "Montant initial : {{initial_amount}}",

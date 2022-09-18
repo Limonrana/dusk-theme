@@ -321,6 +321,7 @@
       "variant_label": "Variant",
       "sku": "SKU",
       "share": "Share",
+      "share_url": "Link",
       "price": "Price",
       "quantity": "Quantity",
       "from_price_html": "From {{min_price}}",
@@ -339,7 +340,11 @@
       "pre_order": "Pre-order",
       "unavailable": "Unavailable",
       "view_info": "More information",
-      "view_images": "View images"
+      "view_images": "View images",
+      "pickup_availability": {
+        "unavailable": "Couldn't load pickup availability",
+        "refresh": "Refresh"
+      }
     },
     "tabs": {
       "reviews": "Reviews"
@@ -355,7 +360,8 @@
       "disabled": "Your gift card is disabled.",
       "expired": "Your gift card expired on {{ expiry }}.",
       "expires_on": "Your gift card expires on {{ expiry }}.",
-      "redeem_html": "Use this code at checkout to redeem your gift card, or {{print_link}} this page.",
+      "redeem_html": "<span>Use this code at checkout to redeem your gift card, or</span> {{print_link}} <span>this page.</span>",
+      "qr_image_alt": "QR code — scan to redeem gift card",
       "shop_link": "Start shopping",
       "print": "print",
       "initial_amount_html": "Amount: {{initial_amount}}",

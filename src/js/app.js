@@ -1,3 +1,43 @@
+// Header Scroll transparent Handler
+const headerContainer = document.querySelector('[data-section-type="header"]');
+if (headerContainer) {
+    window.addEventListener('scroll', function(event) {
+        if (pageYOffset > 20) {
+            onHeaderHandler(true);
+        } else if (pageYOffset < 15) {
+            onHeaderHandler(false);
+        }
+    });
+
+    // Header Hover Handler
+    headerContainer.addEventListener('mouseenter', function (event) {
+        if (window.pageYOffset < 20) {
+            onHeaderHandler(true);
+        }
+    });
+    headerContainer.addEventListener('mouseleave', function (event) {
+        if (window.pageYOffset < 20) {
+            onHeaderHandler(false);
+        }
+    });
+
+    // Common Methods
+    function onHeaderHandler (isTransparentAdd = false) {
+        const header = headerContainer.querySelector('header');
+        if (isTransparentAdd) {
+            if (header.classList.contains('ws--header-transparent')) {
+                header.classList.remove('ws--header-transparent');
+                header.setAttribute('header-transparent-remove', 'true');
+            }
+        } else {
+            if (header.hasAttribute('header-transparent-remove')) {
+                header.classList.add('ws--header-transparent');
+                header.setAttribute('header-transparent-remove', 'false');
+            }
+        }
+    }
+}
+
 // Localization Selector handle Event Listener
 document.querySelectorAll('[aria-controls="dropdown-popover"]').forEach(function(el, target) {
     el.setAttribute("aria-controls", el.getAttribute("aria-controls") + "-" + target);
@@ -78,37 +118,37 @@ function closeDropdown() {
 }
 
 // Sidebar Menu handle Event Listener
-document.querySelectorAll('[data-action="open-drawer"]').forEach(function(el) {
-    // Get the drawer element
-    let drawer = document.querySelector('[data-section-type="' + el.dataset.drawerId + '"]');
-    let overLay = document.querySelector('.ws--page-overlay');
-    // Sidebar Menu handle click Event Listener
-    el.addEventListener('click', function(e) {
-        // Toggle the drawer attribute
-        drawer.setAttribute('aria-hidden', 'false');
-        // Toggle the overlay
-        overLay.classList.toggle('is-ws-visible');
+// document.querySelectorAll('[data-action="open-drawer"]').forEach(function(el) {
+//     // Get the drawer element
+//     let drawer = document.querySelector('[data-section-type="' + el.dataset.drawerId + '"]');
+//     let overLay = document.querySelector('.ws--page-overlay');
+//     // Sidebar Menu handle click Event Listener
+//     el.addEventListener('click', function(e) {
+//         // Toggle the drawer attribute
+//         drawer.setAttribute('aria-hidden', 'false');
+//         // Toggle the overlay
+//         overLay.classList.toggle('is-ws-visible');
         
-        // Close the drawer
-        drawer.querySelector('[data-action="close-drawer"]').addEventListener('click', function(e) {
-            drawer.setAttribute('aria-hidden', 'true');
-            // Toggle the overlay
-            overLay.classList.toggle('is-ws-visible');
-        });
-    });
+//         // Close the drawer
+//         drawer.querySelector('[data-action="close-drawer"]').addEventListener('click', function(e) {
+//             drawer.setAttribute('aria-hidden', 'true');
+//             // Toggle the overlay
+//             overLay.classList.toggle('is-ws-visible');
+//         });
+//     });
 
-    // outside click listener
-    document.addEventListener('click', function(e) {
-        if (e.target !== el) {
-            if (drawer.getAttribute('aria-hidden') === 'false' && !drawer.contains(e.target)) {
-                // Toggle the drawer attribute
-                drawer.setAttribute('aria-hidden', 'true');
-                // Toggle the overlay
-                overLay.classList.toggle('is-ws-visible');
-            }
-        }
-    });
-});
+//     // outside click listener
+//     document.addEventListener('click', function(e) {
+//         if (e.target !== el) {
+//             if (drawer.getAttribute('aria-hidden') === 'false' && !drawer.contains(e.target)) {
+//                 // Toggle the drawer attribute
+//                 drawer.setAttribute('aria-hidden', 'true');
+//                 // Toggle the overlay
+//                 overLay.classList.toggle('is-ws-visible');
+//             }
+//         }
+//     });
+// });
 
 // Lazy Load Images using Intersection Observer
 (function () {
@@ -213,29 +253,6 @@ function setHeightFlikityItems() {
         }
     });
 }
-
-// Quantity Incrementer and Decrementer
-document.querySelectorAll('[data-action="quantity-increment"]').forEach(function(el) {
-    // Get the decrementer element
-    let decrementer = el.querySelector('[data-action="decrement"]');
-    // Get the Incrementer element
-    let incrementer = el.querySelector('[data-action="increment"]');
-    // Get the input element
-    let input = el.querySelector('[data-action="quantity"]');
-    // Increment the value
-    incrementer.addEventListener('click', function(e) {
-        let value = parseInt(input.value);
-        input.value = value + 1;
-    });
-
-    // Decrement the value
-    decrementer.addEventListener('click', function(e) {
-        let value = parseInt(input.value);
-        if (value > 1) {
-            input.value = value - 1;
-        }
-    });
-});
 
 // Shop The Look Main Carousel Handler
 document.addEventListener('DOMContentLoaded', function() {

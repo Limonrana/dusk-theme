@@ -1,19 +1,46 @@
 .ws--footer {
   padding: 34px 0;
-  background: #ffffff;
-  color: #6a6a6a;
+  background: var(--fo);
+  color: var(--footer-text-color);
   .ws--inner-footer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-left: -40px;
-    margin-right: -40px;
+    @include devices(tabletUp) {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-left: -40px;
+      margin-right: -40px;
+    }
+    .ws--footer-block {
+      margin-top: 48px;
+    }
+    .ws--footer-newsletter {
+      .footer-form {
+        .form-control {
+          padding: 1.2rem 1.5rem;
+          border-radius: 0;
+          font-size: 15px;
+          margin-bottom: 15px;
+          &:focus {
+            box-shadow: none !important;
+            border-color: var(--footer-heading-color) !important;
+            outline: 0 !important;
+            border-color: var(--footer-border-color);
+          }
+        }
+        input.form-control {
+          &::placeholder {
+            font-size: 15px;
+            color: var(--footer-text-color);
+          }
+        }
+      }
+    }
     .ws--footer-text {
       flex-basis: 460px;
     }
     .ws--footer-title {
       font-size: 14px;
-      color: #1c1b1b;
+      color: var(--footer-heading-color);
       margin-bottom: 20px;
     }
   }
@@ -21,16 +48,16 @@
     .ws--link-list {
       .ws--link-list-item {
         .ws--link-footer {
-          color: #6a6a6a;
+          color: var(--footer-text-color);
           &:hover {
-            color: #1c1b1b;
+            color: var(--footer-heading-color);
           }
         }
       }
     }
   }
   .ws--footer-bottom {
-    border-top: 1px solid #cfcfcf;
+    border-top: 1px solid var(--footer-border-color);
     .ws--payment-list {
       svg {
         opacity: 0.8;
@@ -65,15 +92,15 @@
             margin-bottom: 15px;
             &:focus {
               box-shadow: none !important;
-              border-color: #1c1b1b !important;
+              border-color: var(--footer-heading-color) !important;
               outline: 0 !important;
-              border-color: #ced4da;
+              border-color: var(--footer-border-color);
             }
           }
           input.form-control {
             &::placeholder {
               font-size: 15px;
-              color: #6a6a6a;
+              color: var(--footer-text-color);
             }
           }
         }
